@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+	<%- include('partials/head') %>
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		
+<%- include('partials/nav') %>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+	
+<%- include('partials/leftslider') %>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="row justify-content-md-center"></div>
+					<div class="container-fluid">
+						<h2 class="page-title">Product ID : <%=product._id %></h2>
+                        <h2 class="page-title">Product Name: <%=product.name %></h2>
+						<div class="row justify-content-md-center">
+							<div class="col-md-9">
+							<div class="panel">
+								<div class="panel-body">
+								
+									<form action="/dashboard/product" method="POST">
+										<br>
+										<div class="row"> 
+											<div class="col-md-6">
+												<label for="name">Product Name</label>
+												<input disabled class="form-control" type="text" id="name" name="product[name]" value="<%=product.name %>" required>
+											</div>
+											
+											<div class="col-md-3">
+												<label for="name">Instore qty </label>
+												<input class="form-control" type="number" id="qty" name="product[qty]" value="<%=product.qty %>">
+											</div>
+											<div class="col-md-3">
+												<label for="onsale">Category</label>
+												<input class="form-control" type="text" name="product[category]" id="category" value="<%= product.category %>">
+                                            
+											</div>
+											
+											
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-md-3">
+											<label for="onsale">Flavor</label>
+											<input class="form-control" type="text" id="flavor" name="product[flavor]" value="<%= product.flavor %>"></input>
+											</div>
+											<div class="col-md-3">
+												<label for="onsale">$Price</label>									
+												<input disabled class="form-control" type="text" id="price" name="product[price]" value="<%=product.price %>"required></input>
+											</div>
+											
+											<div class="col-md-3">
+												<label for="saleprice">Sale Price</label>									
+												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" value="<%= product.saleprice%>" >
+											</div>
+											<div class="col-md-3">
+												<label for="onsale">On Sale</label>
+												<input class="form-control" type="text" name="product[onsale]" 
+                                                <% if ( product.onsale) { %>
+                                                    value= "Yes" id="onsale"> 
+                                                    <%} else { %>
+                                                   value ="No" id="onsale"> 
+                                                    <% } %>
+        
+											
+											</div>
+											
+											
+
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-md-12">
+												<label for="name"> Description </label>
+												<textarea disabled class="form-control" name="product[description]" value="<%= product.description %>"" 
+                                                    placeholder="<%= product.description %>" id="product[description]" rows="6"></textarea>
+											</div>
+
+										</div>
+										<br>	
+										<div class="col-md-12 text-right">
+											<a href="/dashboard/product" class="btn btn-warning"  > < back to all product</a>
+											<a href="/dashboard/product/<%=product._id %>/edit">
+                                                <button class="btn btn-primary" type="button">
+                                                    Edit Product 
+                                                </button>
+    
+                                            </a>
+                                            
+										</div>
+										
+									</form>
+								</div>
+							</div>
+							
+							
+							</div>
+							</div>
+                            
+					
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script src="../../dashboard/vendor/jquery/jquery.min.js"></script>
+	<script src="../../dashboard/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../dashboard/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../../dashboard/scripts/klorofil-common.js"></script>
+</body>
+
+</html>

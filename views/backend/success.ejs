@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+	<%- include('partials/head') %>
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		
+<%- include('partials/nav') %>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+	
+<%- include('partials/leftslider') %>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="row justify-content-md-center"></div>
+					<div class="container-fluid">
+						<h2 class="page-title">Add New Product</h2>
+						<div class="row justify-content-md-center">
+							<div class="col-md-9">
+							<div class="panel">
+								<div class="panel-body">
+								
+									<form action="/dashboard/product" method="POST">
+										<br>
+										<div class="row"> 
+											<div class="col-md-6">
+												<label for="name">Product Name</label>
+												<input class="form-control" type="text" id="name" name="product[name]" placeholder="Product Name" required>
+											</div>
+											
+											<div class="col-md-3">
+												<label for="name">instore qty </label>
+												<input class="form-control" type="number" id="qty" name="product[qty]" placeholder="0">
+											</div>
+											<div class="col-md-3">
+												<label for="onsale">Category</label>
+												<select class="form-control" name="product[category]" id="product[category]">
+													<% for (let category of categories ){%>
+														<option value="<%=category %>" > <%=category %></option>
+														
+														<% }%>
+														
+												</select>
+											</div>
+											
+											
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-md-3">
+											<label for="onsale">Flavor</label>
+											<input class="form-control" type="text" id="flavor" name="product[flavor]"></input>
+											</div>
+											<div class="col-md-3">
+												<label for="onsale">$Price</label>									
+												<input class="form-control" type="text" id="price" name="product[price]" placeholder="0.00"required></input>
+											</div>
+											<div class="col-md-3">
+												<label for="onsale">On Sale</label>
+												<select class="form-control" name="product[onsale]" id="onsale">
+													<option value="false"> No, it's not onsale</option>
+													<option value="true"> Yes, it's onsale</option>
+													
+												</select>
+											</div>
+											<div class="col-md-3">
+												<label for="saleprice">Sale Price</label>									
+												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" placeholder="Enter price if's on sale"> </input>
+											</div>
+											
+											
+											
+
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-md-12">
+												<label for="name"> Description </label>
+												<textarea class="form-control" name="product[description]" id="product[description]" placeholder="Type your product description here..." rows="6"></textarea>
+											</div>
+
+										</div>
+										<br>	
+										<div class="col-md-12 text-right">
+											<a href="/dashboard/product" class="btn btn-warning"  > < back to all product</a>
+											
+											<button id="popupbtn" class="btn btn-success" type="submit">
+												Add Product 
+											</button>
+
+										</div>
+										<!--message box pop up -->
+										<div id="message-box" class="message-box">
+								
+											<div class="overplay">
+											<div class="content" style="background-color: transparent;" >
+											
+												<br>
+												<br>
+												<br>
+												<div class="alert alert-success alert-dismissible" role="alert">
+													<button id="closebtn" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													<i class="fa fa-check-circle"></i> 
+													 You have succesfully added a product
+												</div>
+												
+										
+											
+				
+													
+												</div>
+												</div>
+										
+										
+										</div>
+									</form>
+								</div>
+							</div>
+							
+								<!-- END ALERT MESSAGES -->
+							</div>
+							</div>
+					
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script src="../../dashboard/vendor/jquery/jquery.min.js"></script>
+	<script src="../../dashboard/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../dashboard/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../../dashboard/scripts/klorofil-common.js"></script>
+
+	<script>
+		$(document).ready(function (){
+			
+				$("#closebtn").click(function(){
+					$("#message-box").hide(500);
+				});
+				
+
+		});
+		
+	</script>
+</body>
+
+</html>

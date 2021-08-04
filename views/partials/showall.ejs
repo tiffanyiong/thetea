@@ -5,7 +5,7 @@
         <!-- Single Prodect -->
         <div class="product">
             <div class="thumb">
-                <a href="single-product.html" class="image">
+                <a href="/shop/<%=product._id %>" class="image">
                     <img src="/images/product-image/1.jpg"
                         alt="Product" />
                     <img class="hover-image"
@@ -13,6 +13,9 @@
                 </a>
                 <span class="badges">
                     <span class="new">New</span>
+                    <% if(product.onsale) {%>
+                        <span class="sale">Sale</span>
+                    <%}%>
                 </span>
                 <div class="actions">
                     <a href="wishlist.html" class="action wishlist"
@@ -32,12 +35,19 @@
                     </span>
                     <span class="rating-num d-none">( 5 Review )</span>
                 </span>
-                <h5 class="title"><a href="single-product.html"> <%=product.name %>
+                <h5 class="title"><a href="/shop/<%=product._id %>"> <%=product.name %>
                     </a>
                 </h5>
                 <span class="price">
-                    <span class="new">$<%=product.price %></span>
-                    <span class="old">$110.50</span>
+                    <% if ( product.onsale) { %>
+                        <span class="new">$<%=product.saleprice %></span>
+                        <span class="old">$<%=product.price %> </span>
+                        <%} else { %>
+                            <span class="new">$<%=product.price %></span>
+                        <% } %>
+
+                   
+                    
                 </span>
             </div>
             <button title="Add To Cart" class=" add-to-cart">Add

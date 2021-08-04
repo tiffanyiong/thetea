@@ -10,14 +10,20 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
     },
-    catagory: String,
+    saleprice: Number,
+    category: String,
+    flavor: String,
     onsale: {
         type: Boolean,
         default: false
     },
-    qty: Number,
-    weight: Number,
-    
+    qty: {
+        type: Number,
+        default: 0
+    },
+    description: String,
+
+
 
 });
 
