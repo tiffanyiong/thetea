@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en">
-<title> Edit Product</title>
+
+<head>
 	<%- include('partials/head') %>
+</head>
 
 <body>
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
-		
 		<%- include('partials/nav') %>
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-	
 		<%- include('partials/leftslider') %>
 		<!-- END LEFT SIDEBAR -->
 		<!-- MAIN -->
@@ -23,6 +23,7 @@
 						<h1 class="page-title"><b> Edit the following product:</b></h2>
 						<h2 class="page-title">Product ID : <%=product._id %></h2>
                         <h2 class="page-title">Product Name: <%=product.name %></h2>
+						<%- include('partials/imageCarousel') %>
 						<div class="row justify-content-md-center">
 							<div class="col-md-9">
 							<div class="panel">
@@ -66,10 +67,7 @@
 												<input class="form-control" type="text" id="price" name="product[price]" value="<%=product.price %>"required></input>
 											</div>
 											
-											<div class="col-md-3">
-												<label for="saleprice">Sale Price</label>									
-												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" value="<%= product.saleprice%>" >
-											</div>
+											
 											<div class="col-md-3">
 												<label for="onsale">On Sale</label>
 												<select class="form-control" type="text" name="product[onsale]" value="<%=product.onsale%>" >
@@ -80,15 +78,23 @@
 													> Yes</option>
 												</select>
 
-                                                
-        
-											
+											</div>
+											<div class="col-md-3">
+												<label for="saleprice">Sale Price</label>									
+												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" value="<%= product.saleprice%>" >
 											</div>
 											
 											
 
 										</div>
 										<br>
+										<div class="row">
+											<div class="col-md-12">
+												<br>
+												<label for="name"> Edit Image </label>
+												<input class="form-control" type="text" id="image" name="product[image]" placeholder="<%=product.image %>" >
+											</div>
+										</div>
 										<div class="row">
 											<div class="col-md-12">
 												<label for="name"> Description </label>
@@ -173,18 +179,13 @@
 			</div>
 		</footer>
 	</div>
-
 	<!-- END WRAPPER -->
 	<!-- Javascript -->
-	
+	<script src="../..//vendor/jquery/jquery.min.js"></script>
+	<script src="../..//vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../..//vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../..//scripts/klorofil-common.js"></script>
 
-
-	<script src="../../dashboard/vendor/jquery/jquery.min.js"></script>
-	<script src="../../dashboard/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../dashboard/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../../dashboard/scripts/klorofil-common.js"></script>
-	
-<!--pop up message box-->
 	<script>
 		$(document).ready(function (){
 				$("#popupbtn").click(function(){

@@ -1,7 +1,25 @@
+if (process.env.NODE_ENV !== "product") {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const Product = require('./models/product')
+const Joi = require('joi'); //need to also define our schema
+const session = require('express-session');
+const flash = require('connect-flash');
+const ExpressError = require('./helpers/ExpressError');
+const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
+const userRoute = require('./routes/user')
+const frontendRoute = require('./routes/frontend')
+const backendRoute = require('./routes/backend')
+
+const { send } = require('process');
+
 // const flash = require('connect-flash')
 
 
@@ -18,8 +36,7 @@ mongoose.connect('mongodb://localhost:27017/the-tea-shop', {
     console.log(" database connection error: ")
     console.log(err);
 })
-//npm i method-override
- const methodOverride = require('method-override');
+
 //npx nodemon app.js
 
 const app = express();
@@ -36,104 +53,47 @@ app.use(express.urlencoded({ extended: true}));
 app.use(methodOverride('_method'));
 
 
-// ====================================================================
 
-//usefor dashboard
-//if you add more categories, please remember add this in this array
-const categories = ['','Bestseller', 'Popular','Other'];
+const sessionConfig = {
+    secret: 'this is secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 1000 * 60 * 60 *24 * 7,
+        maxAge: 1000 * 60 * 60 *24 * 7,
+    }
+}
+app.use(session(sessionConfig));
+app.use(flash());
 
-//clienct:
-
-app.get('/', (req, res) => {
-    res.render('index');
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
 })
+// passport should be under session
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
-app.get('/about', (req, res) => {
-    res.render('about');
-})
-
-app.get('/shop', async (req, res) => {
-    const products = await Product.find({});
-    res.render('shop', { products });
-})
-
-app.get('/shop/:id', async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    res.render('product_detail', { product });
-})
-
-app.get('/contact', (req, res) => {
-    res.render('contact');
-})
-app.get('/checkout', (req, res) => {
-    res.render('checkout');
-})
-app.get('/cart', (req, res) => {
-    res.render('cart');
-})
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
-// ====================================================================
-//dashboard:
+app.use('/', userRoute);
+app.use('/', frontendRoute);
+app.use('/dashboard',backendRoute);
 
-app.get('/dashboard', (req, res) =>{
-    res.render('backend/dashboard');
-})
-app.get('/dashboard/product', async (req, res) =>{
-    const products = await Product.find({});
-    res.render('backend/product', { products});
-})
-
-app.get('/dashboard/product/new', (req, res) => {
-    res.render('backend/product_new', { categories }); 
-})
-
-app.post('/dashboard/product', async (req, res) => {
-    const product = new Product(req.body.product);
-    await product.save();
-    console.log("data has been saved")
-    //TODO 
-    //try catch error!!!!!!! 
-    
-    res.redirect(`/dashboard/product/${product._id}`);
-})
-
-app.get('/dashboard/product/:id', async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    res.render('backend/singleproduct',{ product });
-})
-
-app.get('/dashboard/product/:id/edit', async (req, res) =>{
-    
-    const product = await Product.findById(req.params.id);
-    res.render('backend/edit',{ product, categories });
+app.all('*', (req, res, next)=>{
+    next(new ExpressError('Page Not Found', 404))
 });
-
-app.put('/dashboard/product/:id', async (req, res) =>{
-    const { id } = req.params;
-    //split the object (we ground things like Product[name])
-    const product = await Product.findByIdAndUpdate(id, {...req.body.product }, {new: true})
-    console.log("data has saved")
-    res.redirect(`/dashboard/product/${product._id}/`);
-
-  
+//handle async error
+app.use((err, req, res, next) => {
+    const{ statusCode = 500 } = err;
+    if (!err.message) err.message ='Oops, something went wrong!'
+    res.status(statusCode).render('error', { err });
 });
-
-app.delete('/dashboard/product/:id', async (req, res) => {
-    const { id } = req.params;
-    await Product.findByIdAndDelete(id);
-    console.log("----delete----")
-    res.redirect('/dashboard/product');
-});
-// app.get('/test', async (req, res) => {
-//     const tea = new Product({name:'桑葚果菊花茶', price:'88', description:'生津止渴'})
-//     await tea.save();
-//     res.send(tea);
-    
-// //    const allproduct = await Product.find({});
-// //    res.render('test', { allproduct })
-// })
 
 app.listen(3000, () => {
     console.log('Serving on port 3000');
-})
+});

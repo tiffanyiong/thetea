@@ -17,7 +17,7 @@
     <%- include("partials/off-wishlist") %>
     <!-- OffCanvas Wishlist End -->
     <!-- OffCanvas Cart Start -->
-    <<%- include("partials/off-cart") %>
+    <%- include("partials/off-cart") %>
     <!-- OffCanvas Cart End -->
 
     <!-- OffCanvas Menu Start -->
@@ -150,24 +150,24 @@
             </div>
         </div>
     </div>
-    <!-- OffCanvas Menu End -->
+    <!--OffCanvas Menu End-->
 
-    <!-- breadcrumb-area start      這裡是大幅banner--> 
-    <!-- <div class="breadcrumb-area">
+    <!-- breadcrumb-area start這裡是大幅banner--> 
+    <div class="breadcrumb-area">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 text-center">
-                    <h2 class="breadcrumb-title">THE TEA </h2> -->
-                    <!-- breadcrumb-list start -->
-                    <!-- <ul class="breadcrumb-list">
+                    <h2 class="breadcrumb-title">THE TEA </h2>
+                    <!-- breadcrumb-list start-->
+                    <ul class="breadcrumb-list">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                         <li class="breadcrumb-item active">Product</li>
-                    </ul> -->
-                    <!-- breadcrumb-list end -->
-                <!-- </div>
+                    </ul>
+                    <!-- breadcrumb-list end-->
+                </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- breadcrumb-area end -->
 
     <!-- Product Details Area Start -->
@@ -176,10 +176,11 @@
             <div class="row">
                 <div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
                     <!-- Swiper -->
+                    <!-- Image big-->
                     <div class="swiper-container zoom-top">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide zoom-image-hover">
-                                <img class="img-responsive m-auto" src="../images/product-image/zoom-image/1.jpg"
+                                <img class="img-responsive m-auto" src="<%=product.image[0]%>"
                                     alt="">
                             </div>
                             <div class="swiper-slide zoom-image-hover">
@@ -200,10 +201,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Image showing samll:-->
                     <div class="swiper-container mt-20px zoom-thumbs ">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <img class="img-responsive m-auto" src="../images/product-image/small-image/1.jpg"
+                                <img class="img-responsive m-auto" src="https://d37o7mil902xdk.cloudfront.net/media/images/1/70/products/REDESIGN_PRODUCTS/Gift%20Sets/Hero_1400x1080_GiftSet_Fleur_20723_2_1581197580.jpg?651"
                                     alt="">
                             </div>
                             <div class="swiper-slide">
@@ -227,11 +230,15 @@
                 </div>
                 <div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
                     <div class="product-details-content quickview-content ml-25px">
-                        <h2> Product: <%=product._id %> </h2>
+                        <h2> <%=product.name %> </h2>
                         <div class="pricing-meta">
                             <ul class="d-flex">
-                                <li class="new-price">$20.90</li>
-                                <li class="old-price"><del>$30.90</del></li>
+                                <% if(product.onsale) {%>
+                                <li class="new-price"> $<%=product.saleprice %> </li>
+                                <li class="old-price"><del>$<%= product.price %>0</del></li>
+                                <% } else {%> 
+                                    <li class="new-price">$<%=product.price %> </li>
+                                 <% }%>
                             </ul>
                         </div>
                         <div class="pro-details-rating-wrap">
@@ -248,17 +255,32 @@
                             <span class="avallabillty">Availability: <span class="in-stock"><i
                                         class="fa fa-check"></i>In Stock</span></span>
                         </div>
-                        <p class="mt-30px mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                            eiusmodol tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veni nostrud
-                            exercitation ullamco laboris </p>
+                        <!--product description (1)-->
+                        <p class="mt-30px mb-0"> <%= product.description %> </p>
+
+                        <!---form: view Cart-->
+                        <form action="/cart" method="POST">
                         <div class="pro-details-quality">
                             <div class="cart-plus-minus">
-                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
+                                <input class="cart-plus-minus-box" type="text" name="cart[qty]" value="1" />
                             </div>
+
+                        
                             <div class="pro-details-cart">
-                                <button class="add-cart"> Add To
+                                <input type="hidden" name="cart[product]" id="cart[product" value="<%=product.id%>"
+                                <input type="hidden" name="cart[subtotal]" id="cart[subtotal]"
+                                <% if(product.onsale) {%> 
+                                    value="<%=product.saleprice %> " 
+                                <% } else {%>
+                                    value="<%=product.price %>" 
+                                <% } %>
+                                />
+                               
+                                <button type="submit" class="add-cart"> Add To
                                     Cart</button>
                             </div>
+                            </form>
+
                             <div class="pro-details-cart">
                                 <button class="add-cart buy-button"> Buy It Now</button>
                             </div>
@@ -333,17 +355,7 @@
                     <div id="des-details1" class="tab-pane active">
                         <div class="product-description-wrapper">
                             <p>
-
-                                Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                est laborum. Sed utlo perspiciatis unde omnis iste natus error sit voluptatem
-                                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                                voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-                                dolores eos qui ratione voluptatem sequi nesciunt.
+                                        <%=product.description %>
 
                             </p>
                         </div>
@@ -551,6 +563,7 @@
                                     <span class="old">$45.50</span>
                                 </span>
                             </div>
+
                             <button title="Add To Cart" class=" add-to-cart">Add
                                 To Cart</button>
                         </div>

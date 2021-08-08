@@ -25,7 +25,7 @@
 							<div class="panel">
 								<div class="panel-body">
 								
-									<form action="/dashboard/product" method="POST">
+									<form action="/dashboard/product" method="POST" enctype="multipart/form-data">
 										<br>
 										<div class="row"> 
 											<div class="col-md-6">
@@ -62,7 +62,7 @@
 											</div>
 											<div class="col-md-3">
 												<label for="onsale">On Sale</label>
-												<select class="form-control" name="product[onsale]" id="onsale">
+												<select class="form-control" name="product[onsale]" id="onsale" required>
 													<option value="false"> No, it's not onsale</option>
 													<option value="true"> Yes, it's onsale</option>
 													
@@ -70,18 +70,28 @@
 											</div>
 											<div class="col-md-3">
 												<label for="saleprice">Sale Price</label>									
-												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" placeholder="Enter price if's on sale"> </input>
+												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" 
+												 placeholder="Enter price if's on sale"> </input>
 											</div>
 											
 											
 											
 
 										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<br>
+												<label for="name"> Image </label>
+												<input class="form-control" type="file" id="image" name="product[image]" multiple>
+											</div>
+										</div>
+										
 										<br>
 										<div class="row">
 											<div class="col-md-12">
 												<label for="name"> Description </label>
-												<textarea class="form-control" name="product[description]" id="product[description]" placeholder="Type your product description here..." rows="6"></textarea>
+												<textarea class="form-control" name="product[description]" id="product[description]" 
+												placeholder="Type your product description here..." rows="6" required></textarea>
 											</div>
 
 										</div>
@@ -96,6 +106,9 @@
 										</div>
 									
 									</form>
+
+									
+									
 								</div>
 							</div>
 							

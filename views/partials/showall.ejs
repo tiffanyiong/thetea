@@ -6,10 +6,15 @@
         <div class="product">
             <div class="thumb">
                 <a href="/shop/<%=product._id %>" class="image">
-                    <img src="/images/product-image/1.jpg"
+                    <% if(product.image[0] == null) { %>
+                        <img src="https://cdn.shopify.com/s/files/1/0261/5155/1085/products/3_32916bea-924d-4059-bec8-2cf17d700f11_800x.png?v=1626951636">
+                    <%} else {%>
+                        <img src="<%=product.image[0] %>"
                         alt="Product" />
+                        <%} %>
+                    
                     <img class="hover-image"
-                        src="/images/product-image/1.jpg" alt="Product" />
+                        src="<%=product.image[1] %>" alt="Product" />
                 </a>
                 <span class="badges">
                     <span class="new">New</span>
@@ -29,12 +34,7 @@
                 </div>
             </div>
             <div class="content">
-                <span class="ratings">
-                    <span class="rating-wrap">
-                        <span class="star" style="width: 100%"></span>
-                    </span>
-                    <span class="rating-num d-none">( 5 Review )</span>
-                </span>
+                <br>
                 <h5 class="title"><a href="/shop/<%=product._id %>"> <%=product.name %>
                     </a>
                 </h5>
@@ -53,5 +53,6 @@
             <button title="Add To Cart" class=" add-to-cart">Add
                 To Cart</button>
         </div>
+       
     </div>
     <% }%>

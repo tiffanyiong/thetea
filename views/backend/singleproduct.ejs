@@ -19,12 +19,18 @@
 			<div class="main-content">
 				<div class="row justify-content-md-center"></div>
 					<div class="container-fluid">
+						<%- include('partials/flash') %>
+
 						<h2 class="page-title">Product ID : <%=product._id %></h2>
                         <h2 class="page-title">Product Name: <%=product.name %></h2>
+						<%- include('partials/imageCarousel') %>
+						<hr>
 						<div class="row justify-content-md-center">
 							<div class="col-md-9">
 							<div class="panel">
 								<div class="panel-body">
+
+									
 								
 									<form action="/dashboard/product" method="POST">
 										<br>
@@ -57,10 +63,7 @@
 												<input disabled class="form-control" type="text" id="price" name="product[price]" value="<%=product.price %>"required></input>
 											</div>
 											
-											<div class="col-md-3">
-												<label for="saleprice">Sale Price</label>									
-												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" value="<%= product.saleprice%>" >
-											</div>
+											
 											<div class="col-md-3">
 												<label for="onsale">On Sale</label>
 												<input class="form-control" type="text" name="product[onsale]" 
@@ -69,8 +72,11 @@
                                                     <%} else { %>
                                                    value ="No" id="onsale"> 
                                                     <% } %>
-        
-											
+    
+											</div>
+											<div class="col-md-3">
+												<label for="saleprice">Sale Price</label>									
+												<input class="form-control" type="text" id="saleprice" name="product[saleprice]" value="<%= product.saleprice%>" >
 											</div>
 											
 											
@@ -112,19 +118,9 @@
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
-		<div class="clearfix"></div>
-		<footer>
-			<div class="container-fluid">
-				<p class="copyright">Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
-			</div>
-		</footer>
-	</div>
-	<!-- END WRAPPER -->
-	<!-- Javascript -->
-	<script src="../../dashboard/vendor/jquery/jquery.min.js"></script>
-	<script src="../../dashboard/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="../../dashboard/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<script src="../../dashboard/scripts/klorofil-common.js"></script>
+		<%- include('partials/footer') %>
+		
 </body>
+
 
 </html>
