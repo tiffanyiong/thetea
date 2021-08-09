@@ -52,8 +52,6 @@ app.use(express.urlencoded({ extended: true}));
 //set the string that we use for methodOverride
 app.use(methodOverride('_method'));
 
-
-
 const sessionConfig = {
     secret: 'this is secret',
     resave: false,
@@ -66,11 +64,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-})
+
 // passport should be under session
 app.use(passport.initialize());
 app.use(passport.session());
@@ -79,6 +73,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use((req, res, next) => {
+    console.log(req.session);
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 app.use('/', userRoute);
 app.use('/', frontendRoute);

@@ -22,10 +22,12 @@ const productSchema = new Schema({
         default: 0
     },
     description: String,
-    image: [{
-        type: String
-    }]
-
+    image:[
+        {
+        url: String,
+        filename: String
+      }
+    ]
 });
 
 module.exports = mongoose.model('Product', productSchema);

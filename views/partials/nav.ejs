@@ -139,12 +139,24 @@
                         </a> -->
                         <!-- Single Wedge End -->
                         <div class="header-bottom-set dropdown">
-                            <button class="dropdown-toggle header-action-btn" data-bs-toggle="dropdown"><i
-                                    class="pe-7s-users"></i></button>
+                            <button class="dropdown-toggle header-action-btn" data-bs-toggle="dropdown">
+                            <% if(currentUser) {%> 
+                                <span style="font-size: small; padding-right: 10px;">Hi, <%= currentUser.username %> </span>
+                                <% } %>
+                                    <i class="pe-7s-users"></i> </button>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a class="dropdown-item" href="my-account.html">My account</a></li>
-                                <li><a class="dropdown-item" href="checkout.html">Checkout</a></li>
-                                <li><a class="dropdown-item" href="login.html">Sign in</a></li>
+                                <li><a class="dropdown-item" href="/account">My account</a></li>
+                                
+                                    <% if (!currentUser) {%>
+                                        <li><a class="dropdown-item" href="/register">Register</a></li>
+                                        <li><a class="dropdown-item" href="/login">Sign in</a></li>
+                                        
+                                    <% } else { %>
+                                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                       
+                                    <%} %>
+
+                           
                             </ul>
                         </div>
                         <!-- Single Wedge Start -->

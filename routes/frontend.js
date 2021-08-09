@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
 const Cart = require('../models/cart');
-
+const { isLoggedIn } = require('../middleware');
 
 
 router.get('/', (req, res) => {
@@ -26,6 +26,11 @@ router.get('/shop/:id', async (req, res) => {
 router.get('/contact', (req, res) => {
     res.render('contact');
 })
+
+router.get('/account', isLoggedIn, (req, res) => {
+    res.render('account');
+})
+
 router.get('/checkout', (req, res) => {
     res.render('checkout');
 })
@@ -42,6 +47,12 @@ router.post('/cart', async (req, res) => {
     console.log(cart)
     res.send(cart);
    
+})
+
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
 })
 
 

@@ -1,0 +1,95 @@
+const Product = require('../models/product');
+const Users = require('../models/user');
+const categories = ['Bestseller', 'Popular','Other'];
+
+module.exports.index = async (req, res) =>{
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    res.render('backend/dashboard');  
+};
+
+module.exports.renderProduct = async (req, res) =>{
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    const products = await Product.find({});
+    res.render('backend/product', { products });
+};
+
+module.exports.renderNewProductForm = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    res.render('backend/product_new', { categories }); 
+};
+
+module.exports.addNewProduct = async (req, res, next) => { //used catchAsync 
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/login');
+    }     
+    if(!req.body.product) throw new ExpressError('Invalid Product Data', 400); //400 invalid client status code
+    
+        const product = new Product(req.body.product);
+        await product.save();
+        req.flash('success', 'Successfully add a product!')
+        console.log("attemped add data")
+        res.redirect(`/dashboard/product/${product._id}`)
+   
+};
+
+module.exports.showSingleProduct = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    const product = await Product.findById(req.params.id);
+    res.render('backend/singleproduct',{ product });
+};
+
+module.exports.renderEditProductForm = async (req, res) =>{
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    const product = await Product.findById(req.params.id);
+    res.render('backend/edit',{ product, categories });
+};
+
+module.exports.editProduct = async (req, res) =>{
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    if(!req.body.product) throw new ExpressError('Invalid Product Data', 400);
+    const { id } = req.params;
+    //split the object (we ground things like Product[name])
+    const product = await Product.findByIdAndUpdate(id, {...req.body.product }, {new: true})
+    req.flash('success', 'Successfully made changes!')
+    res.redirect(`/dashboard/product/${product._id}/`);
+
+};
+
+module.exports.deleteProduct = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    console.log("----delete----")
+    res.redirect('/dashboard/product');
+};
+
+module.exports.renderUser = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    const users = await Users.find({});
+    res.render('backend/user_list', { users })
+};
