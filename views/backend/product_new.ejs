@@ -78,13 +78,7 @@
 											
 
 										</div>
-										<div class="row">
-											<div class="col-md-12">
-												<br>
-												<label for="name"> Image </label>
-												<input class="form-control" type="file" id="image" name="product[image]" multiple>
-											</div>
-										</div>
+										
 										
 										<br>
 										<div class="row">
@@ -95,7 +89,21 @@
 											</div>
 
 										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<br>
+												<!-- <label for="name"> Image </label> -->
+												<!-- <input class="form-control" type="file" id="image" name="product[image]" multiple> -->
+												<label class="form-file-label" for="image">
+													<span class="form-file-text custom-file-label">Upload product images</span>
+											
+												</label>
+												<input type="file" class="form-file-input" id="image" name="image" multiple required>
+												
+											</div>
+										</div>
 										<br>	
+
 										<div class="col-md-12 text-right">
 											<a href="/dashboard/product" class="btn btn-warning"  > < back to all product</a>
 											

@@ -29,7 +29,7 @@
 							<div class="panel">
 								<div class="panel-body">
 								
-									<form action="/dashboard/product/<%=product._id %>?_method=PUT" method="POST">
+									<form action="/dashboard/product/<%=product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 										<br>
 										<div class="row"> 
 											<div class="col-md-6">
@@ -52,6 +52,7 @@
 													
 													
 													</select>
+
 											</div>
 											
 											
@@ -91,8 +92,11 @@
 										<div class="row">
 											<div class="col-md-12">
 												<br>
-												<label for="name"> Edit Image </label>
-												<input class="form-control" type="text" id="image" name="product[image]" placeholder="<%=product.image %>" >
+												<!-- <label for="name"> Edit Image </label>
+												<% for (let i = 0; i < product.image.length; i++){ %>
+													<input class="form-control" type="text" id="image" name="product[image]" value="<%=product.image[i].url %>" >
+												<% } %>
+											 -->
 											</div>
 										</div>
 										<div class="row">
@@ -103,6 +107,69 @@
 											</div>
 
 										</div>
+										
+										<div class="row">
+											<div class="col-md-12">
+												<br>
+												<hr>
+												<br>
+												<!-- <label for="name"> Image </label> -->
+												<!-- <input class="form-control" type="file" id="image" name="product[image]" multiple> -->
+												<label class="form-file-label" for="image">
+													<span class="form-file-text custom-file-label">Add more product images</span>
+											
+												</label>
+												<input type="file" class="form-file-input" id="image" name="image" multiple>
+												
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-12">
+												<br>
+												<hr>
+												<label for="name"> Select Images to remove </label>
+												<div class="row" style="padding: 20px;">
+													<style>
+														.selectedImage:hover{
+															border: 5px solid #e0a143;  
+															border-radius: 25px;
+														}
+													
+													</style>
+													
+													<% product.image.forEach(function (img, i) { %>
+														
+													<% if(img != null ) {%>
+														
+									
+															<div class="col-md-3">
+																
+																	
+																<img src="<%=img.url%>" class="selectedImage" style="width:100px; height:auto;" >
+																<br>
+																<label for="image-<%=i%>"> <span>Delete me ? </span></label>
+																<input class="checkbox" type="checkbox" id="image-<%=i%>" name="deleteImages[]" 
+																	value="<%=img.filename%>" hidden >
+																<% } else {%>
+																	<span> testing</span>
+																<%} %>
+
+															</div>
+											
+													  <% })%>
+															
+													 
+													  
+													
+												</div>
+
+												
+											</div>
+
+										</div>
+										
+						
 										<br>	
 										<div class="col-md-12 text-right">
 											<a href="/dashboard/product" class="btn btn-warning"  > < back to all product</a>
@@ -143,16 +210,40 @@
 								<div class="content">
 									<button id="close-btn" class="close-btn"> &times;<i></i></button>
 									<h3>Delete</h3>
-									<p>Are you sure you want to delete 
-										<br>
+									<p>All the <b> info and images</b> will be deleted. Are you sure you want to delete 
 										Product : 
 										<b>"<%=product.name %>"?</b> </p>
 									
 							
 								
 									<div class="panel-body">
+
 										<form action="/dashboard/product/<%=product._id %>?_method=DELETE" method="POST">
-											<button type="submit" class="btn btn-danger "  > Yes, Delete <b><%=product.name %></b> </button>
+											<div class="col-md-3"></div>	
+											<div class="col-md-3">
+													<button type="submit" class="btn btn-danger "  > Yes, Delete  <b><%=product.name %></b> </button>
+												</div>
+										
+											<% product.image.forEach(function (img, i) { %>
+														
+													<% if(img != null ) {%>
+														
+															
+																
+															<!-- <img src="<%=img.url%>" class="selectedImage" style="width:100px; height:auto;" >
+															<br> -->
+															
+															<input class="deletebox" type="checkbox" id="image-<%=i%>" name="deleteImages[]" 
+																value="<%=img.filename%>"  >
+													<% }  %>
+								
+														</div>
+										
+											 <% })%>
+														
+												 
+												  
+											
 										</form>
 										
 									</div>
@@ -164,7 +255,11 @@
 							<!--end delete-->
 
 							</div>
-							</div>
+						</div>
+
+
+
+								
 					
 					</div>
 				</div>
@@ -190,10 +285,16 @@
 		$(document).ready(function (){
 				$("#popupbtn").click(function(){
 					$("#message-box").show(500);
+					$(".checkbox").prop('checked', true);
+					$(".deletebox").hide();
+
 				});
 				$("#close-btn").click(function(){
 					$("#message-box").hide(500);
+					$(".checkbox").prop('checked', false);
 				});
+
+		
 
 		});
 		

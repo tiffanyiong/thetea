@@ -9,7 +9,7 @@
                     <% if(product.image[0] == null) { %>
                         <img src="https://cdn.shopify.com/s/files/1/0261/5155/1085/products/3_32916bea-924d-4059-bec8-2cf17d700f11_800x.png?v=1626951636">
                     <%} else {%>
-                        <img src="<%=product.image[0] %>"
+                        <img src="<%=product.image[0].url %>"
                         alt="Product" />
                         <%} %>
                     
