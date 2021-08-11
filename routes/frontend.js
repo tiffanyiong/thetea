@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const catchAsync = require('../helpers/catchAsync');
+const ExpressError = require('../helpers/ExpressError');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 const { isLoggedIn } = require('../middleware');
+// const cart = require('../models/cart');
 
+const shopController = require('../controllers/shopcontroller');
 
 router.get('/', (req, res) => {
     res.render('index');
@@ -34,21 +38,16 @@ router.get('/account', isLoggedIn, (req, res) => {
 router.get('/checkout', (req, res) => {
     res.render('checkout');
 })
-router.get('/cart', async (req, res) => {
-    const cart = await Cart.findById(req.params.id);
-    res.render('cart', { cart });
-})
-router.post('/cart', async (req, res) => {
-    // one user - 1 cart - 
-    const cart = new Cart(req.body.cart);
-    const item = await Cart.findById(req.params.id);
-    cart.products.push(item);
-    // await cart.save(item);
-    console.log(cart)
-    res.send(cart);
-   
-})
 
+
+router.route('/add-to-cart')
+    .post(catchAsync(shopController.addToCart));
+
+
+
+router.get('/cart', (req, res) => {
+    res.render('cart');
+})
 
 router.get('/logout', (req, res) => {
     req.logout();

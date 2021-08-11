@@ -2,7 +2,6 @@ const Product = require('../models/product');
 const Users = require('../models/user');
 const categories = ['Bestseller', 'Popular','Other'];
 const { cloudinary } = require("../cloudinary");
-const product = require('../models/product');
 
 module.exports.index = async (req, res) =>{
     if(req.user.role != process.env.DASHBOARD_ACCESS){
