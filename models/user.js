@@ -12,9 +12,11 @@ const UserSchema = new Schema({
         type: String,
         default: "Customer"
     },
-    cart: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Cart'
+    carts: {
+        cartId: [{
+            type: mongoose.Types.ObjectId,
+            ref:'Cart'
+        }]
     }
     
     
@@ -22,16 +24,13 @@ const UserSchema = new Schema({
 
 UserSchema.plugin(passportLocalMongoose);
 
+UserSchema.methods.pushToCart = function(userCartId) {
+   
+    this.carts.cartId.push(userCartId);
+    console.log("userSchema is called", this.carts)
+    return this.save();
+
+};
+
+
 module.exports = mongoose.model('User', UserSchema);
-
-UserSchema.methods.addToCart = function(product) {
-    let cart = this.cart; // get cart from the database
-    if(cart.item.lenth == 0){
-        cart.items.push({productId:product._id, qty: 1})
-        cart.totalPrice = product.price;
-    } else {
-
-
-    }
-    console.log("User in schema:", this.user);
-}

@@ -26,8 +26,6 @@ const cartSchema = new Schema ({
 //instance method
 cartSchema.methods.addToCart = function(product) {
     console.log('=======we are in cart model============');
-   
-
     let cart = this.cart;
     const isExisting = cart.items.findIndex(objInItems => new String(objInItems.productId).trim() === new String(product._id).trim());
     if (isExisting >= 0){
@@ -40,7 +38,7 @@ cartSchema.methods.addToCart = function(product) {
         cart.subTotal = 0;
     }
     cart.subTotal += product.price;
-    return this.save();
+    return this.save();  
   
 };
 
