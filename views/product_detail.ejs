@@ -259,16 +259,18 @@
                         <p class="mt-30px mb-0"> <%= product.description %> </p>
 
                         <!---form: view Cart-->
-                        <form action="/cart" method="POST">
-                        <div class="pro-details-quality">
+ 
+                        <form action="/additem" method="POST">
+                            <div class="pro-details-quality">
                             <div class="cart-plus-minus">
-                                <input class="cart-plus-minus-box" type="text" name="cart[qty]" value="1" />
+                                <input class="cart-plus-minus-box" type="text" name="product[qty]" value="1" />
                             </div>
 
                         
-                            <div class="pro-details-cart">
-                                <input type="hidden" name="cart[product]" id="cart[product" value="<%=product.id%>"
-                                <input type="hidden" name="cart[subtotal]" id="cart[subtotal]"
+                             
+                                <div class="pro-details-cart">
+                                <input type="hidden" name="product[id]" id="product[id]" value="<%=product._id%>"
+                                <input type="hidden" name="product[price]" id="product[price]"
                                 <% if(product.onsale) {%> 
                                     value="<%=product.saleprice %> " 
                                 <% } else {%>
@@ -276,10 +278,12 @@
                                 <% } %>
                                 />
                                
-                                <button type="submit" class="add-cart"> Add To
-                                    Cart</button>
+                                    <button type="submit" class="add-cart"> Add To
+                                        Cart</button>
+                                
+                               
                             </div>
-                            </form>
+                        </form>
 
                             <div class="pro-details-cart">
                                 <button class="add-cart buy-button"> Buy It Now</button>
