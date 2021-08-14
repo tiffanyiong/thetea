@@ -50,15 +50,24 @@ router.route('/additem')
 
 router.get('/cart', async (req, res) => {
     let cart = null;
+    // const product = await Product.find({});
     if(typeof req.session.cart != "undefined"){
-        cart = await Cart.findById(req.session.cart._id);
-        cart.populate('items.productId').execPopulate();
-        console.log("please work!!--------------------")
-      console.log(cart);
-        
+        cart = await Cart.findById(req.session.cart._id)
+            .populate('cart.items.productId')//this is correct.
+            .then(populatedCart => {
+                res.render('cart', { cart: populatedCart.cart });
+                
+            });
+            
          
+        // console.log(cart.populated('cart.items.productId')); //return objectId
+        // console.log(cart.cart.items.productId[0].name);
+        
+        
+    } else {
+        res.render('cart', { cart });
     }
-    res.render('cart', {cart});
+  
 })
 
 router.get('/logout', (req, res) => {
