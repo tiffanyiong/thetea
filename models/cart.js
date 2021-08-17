@@ -81,5 +81,30 @@ cartSchema.methods.addProductToCart = function(product, qty) {
 
 }
 
+cartSchema.methods.deleteFromCart = function (product) {
+    console.log("Cart.js - deleteFromCart is used")
+    let cart = this.cart;
+    let product_total = 0;
+    const isExisting = cart.items.findIndex(objInItems => new String(objInItems.productId).trim() === new String(product.id).trim());
+    console.log("productID: ", product.id);
+    if (isExisting >= 0){
+        cart.items.splice(isExisting, 1);
+        if(product.onsale == "true"){
+            product_total = product.qty * product.saleprice;
+            cart.subTotal -= product_total;
+            // console.log("product_total: ", product_total);
+            // console.log("subtotal - sale price = ", product_total, ' - ', product.saleprice);
+        } else if (product.onsale == "false"){
+            product_total = product.qty * product.price;
+            cart.subTotal -= product_total;
+            // console.log("subtotal - original price = ", product_total, ' - ', product.price);
+        }
+        
+        console.log("--------------------------it's saving---------deleting")
+        return this.save();
+    }
+
+
+}
 
 module.exports = mongoose.model('Cart', cartSchema);

@@ -27,6 +27,10 @@ router.get('/shop', async (req, res) => {
 router.route('/shop/:id')
     .get(catchAsync(shopController.renderShopProduct))
    
+router.route('/shop/:id/add-cart')
+    //product_detail.ejs 
+    //after added to cart then redirect back to the shop id
+    .post(catchAsync(shopController.addProductToCart));
 
 router.get('/contact', (req, res) => {
     res.render('contact');
@@ -44,8 +48,6 @@ router.get('/checkout', (req, res) => {
 router.route('/add-to-cart')
     .post(catchAsync(shopController.addToCart));
 
-router.route('/additem')
-    .post(catchAsync(shopController.addProductToCart));
 
 
 router.get('/cart', async (req, res) => {
@@ -68,6 +70,14 @@ router.get('/cart', async (req, res) => {
         res.render('cart', { cart });
     }
   
+})
+
+router.delete('/delete-item', async (req, res) => {
+    console.log("Fronted.js------delete Item is used")
+    const cart = await Cart.findById(req.session.cart._id);
+    await cart.deleteFromCart(req.body.product);
+   
+    res.redirect('/cart');
 })
 
 router.get('/logout', (req, res) => {

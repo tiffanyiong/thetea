@@ -21,14 +21,14 @@ module.exports.addToCart = async (req, res, next) =>{
         req.session.cart = await new Cart({});
         let createCart = req.session.cart;
         createCart.addToCart(product);
-        res.send(createCart);
+        res.redirect('/shop');
     } else {
         //add to cart if I have a req.session.cart
         console.log("I have req.session.cart-------(2)");
         const currentCart = await Cart.findById(req.session.cart._id)
         console.log(currentCart);
         currentCart.addToCart(product);
-        res.send(currentCart);
+        res.redirect('/shop');
     }
 
 };
@@ -46,7 +46,7 @@ module.exports.addProductToCart = async (req, res) => {
         req.session.cart = await new Cart({});
         let createCart = req.session.cart;
         createCart.addProductToCart(product, Number(req.body.product.qty));
-        res.send(createCart);
+        res.redirect(`/shop/${product._id}`);
     } else {
         //add to cart if I have a req.session.cart
         console.log("I have req.session.cart-------(2)");
@@ -54,7 +54,7 @@ module.exports.addProductToCart = async (req, res) => {
         console.log(currentCart);
         //String to Number 只能在這裡改，不能在Model 裡面改
         currentCart.addProductToCart(product, Number(req.body.product.qty));
-        res.send(currentCart);
+        res.redirect(`/shop/${product._id}`);
     }
    console.log("method is used: ")
 }
