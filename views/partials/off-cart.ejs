@@ -5,43 +5,66 @@
                 <span class="title">Cart</span>
                 <button class="offcanvas-close">×</button>
             </div>
+            <hr>
 
             <div class="body customScroll">
                 <ul class="minicart-product-list">
+                    <% if (typeof navCart !== "undefined" && navCart.cart.items.length > 0) { %>
+
+                    <% for (let i = 0; i < navCart.cart.items.length; i++ ){%> 
+            
                     <li>
-                        <a href="/cart" class="image"><img src=" "
+                        <a href="/cart" class="image"><img src="<%= navCart.cart.items[i].productId.image[0].url%> "
                                 alt="Cart product Image"></a>
                         <div class="content">
-                            <a href="single-product.html" class="title"> Change title</a>
-                            <span class="quantity-price">1 x <span class="amount">$66.66</span></span>
-                            <a href="#" class="remove">×</a>
+                            <a href="/shop/<%= navCart.cart.items[i].productId._id %>" class="title"> <%= navCart.cart.items[i].productId.name%></a>
+                            <span class="quantity-price"> <%= navCart.cart.items[i].qty %> x <span class="amount">$
+                                <% if (navCart.cart.items[i].productId.onsale) { %>
+                                    <%= navCart.cart.items[i].productId.saleprice%>
+                                    <% } else {%>
+                                        <%= navCart.cart.items[i].productId.price%>
+                                    <%} %>
+                                 </span></span>
+                                 <form action='/delete-item?_method=DELETE' method="POST">
+                                    <input type="hidden" name="product[id]" value="<%=navCart.cart.items[i].productId._id%>">
+                                    <input type="hidden" name="product[onsale]" value="<%= navCart.cart.items[i].productId.onsale %>">
+                                    <input type="hidden" name="product[price]" value="<%= navCart.cart.items[i].productId.price %>">
+                                    <input type="hidden" name="product[saleprice]" value="<%= navCart.cart.items[i].productId.saleprice %>"> 
+                                    <input type="hidden" name="product[qty]" value="<%= navCart.cart.items[i].qty %>">     
+                                 <button type="submit"> 
+                            
+                                    <p class="remove">×</p>
+                                    
+                                 </button>
+                                 </form>
                         </div>
                     </li>
-                    <li>
-                        <a href="single-product.html" class="image"><img src="../../images/product-image/2.jpg"
-                                alt="Cart product Image"></a>
-                        <div class="content">
-                            <a href="single-product.html" class="title">Handmade Ceramic Pottery</a>
-                            <span class="quantity-price">1 x <span class="amount">$43.28</span></span>
-                            <a href="#" class="remove">×</a>
+                    <%} %>
+                    <div>
+                        <br>
+                        
+                        <h5 class="grand-totall-title">小計：
+                            <br>
+                             <span>  HK $ <%=navCart.cart.subTotal %></span></h5>
+                    </div>
+                    <div class="foot">
+                        <div class="buttons mt-30px">
+                            <a href="/cart" class="btn btn-dark btn-hover-primary mb-30px">view cart</a>
+                            <a href="/checkout" class="btn btn-outline-dark current-btn">checkout</a>
                         </div>
-                    </li>
-                    <li>
-                        <a href="single-product.html" class="image"><img src="../../images/product-image/3.jpg"
-                                alt="Cart product Image"></a>
-                        <div class="content">
-                            <a href="single-product.html" class="title">Hand Painted Bowls</a>
-                            <span class="quantity-price">1 x <span class="amount">$37.34</span></span>
-                            <a href="#" class="remove">×</a>
-                        </div>
-                    </li>
+                    </div>
+
+                    <% } else { %>
+                        <li>
+                            
+                            <h5> 您的購物車是空的 </h5>
+                            </li>
+                    <% } %>
+                    
+                   
                 </ul>
+                
             </div>
-            <div class="foot">
-                <div class="buttons mt-30px">
-                    <a href="/cart" class="btn btn-dark btn-hover-primary mb-30px">view cart</a>
-                    <a href="/checkout" class="btn btn-outline-dark current-btn">checkout</a>
-                </div>
-            </div>
+            
         </div>
     </div>

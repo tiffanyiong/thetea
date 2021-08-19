@@ -20,21 +20,21 @@
     <!-- OffCanvas Menu End -->
 
     <!-- breadcrumb-area start -->
-    <div class="breadcrumb-area">
+    <!-- <div class="breadcrumb-area">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 text-center">
-                    <h2 class="breadcrumb-title">Cart</h2>
+                    <h2 class="breadcrumb-title">Cart</h2> -->
                     <!-- breadcrumb-list start -->
-                    <ul class="breadcrumb-list">
+                    <!-- <ul class="breadcrumb-list">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                         <li class="breadcrumb-item active">Cart</li>
-                    </ul>
+                    </ul> -->
                     <!-- breadcrumb-list end -->
-                </div>
+                <!-- </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- breadcrumb-area end -->
 
 
@@ -84,7 +84,7 @@
                                                     src="<%=cart.items[i].productId.image[0].url%>" alt="" /></a>
                                         </td>                                
                                      
-                                        <td class="product-name"><a href="#"><%= cart.items[i].productId.name %></a><br>
+                                        <td class="product-name"><a href="/shop/<%=cart.items[i].productId._id %>"><%= cart.items[i].productId.name %></a><br>
                                         <% if (cart.items[i].productId.onsale) { %> 
                                         <span style="text-decoration: line-through; padding-right: 10px;
                                                     font-size: small;">
@@ -95,12 +95,19 @@
                                          <span>HK$ <%= cart.items[i].productId.price %> </span> 
                                         <% } %>
                                     </td>
-
+                                     
                                        
                                         <td class="product-quantity">
-                                            <div class="cart-plus-minus">
+                                            <!-- <div class="cart-plus-minus">
+                                             
                                                 <input class="cart-plus-minus-box" type="text" name="qtybutton"
                                                     value="<%= cart.items[i].qty %>" />
+                                              
+                                            </div> -->
+                                            <div>
+                                               <a href="/cart/<%= cart.items[i].productId._id%>?action=remove" class="minus" style="color: #515151;"> - </a>
+                                                <input class="updateqty_text"type="text" value="<%= cart.items[i].qty %>"/>
+                                                <a href="/cart/<%= cart.items[i].productId._id%>?action=add" class="plus" style="color: #515151;"> + </a>
                                             </div>
                                         </td>
                                         <td class="product-price-cart"><span class="amount">
@@ -121,7 +128,7 @@
                                                 <input type="hidden" name="product[qty]" value="<%= cart.items[i].qty %>">            
                                                 
                                                 
-                                            <button type="submit">
+                                            <button class="deleteBtn" type="submit">
                                               <i class="fa fa-times"></i>
                                             </button>
                                           </form>

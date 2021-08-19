@@ -13,10 +13,10 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-
-const userRoute = require('./routes/user')
-const frontendRoute = require('./routes/frontend')
-const backendRoute = require('./routes/backend')
+const Cart = require('./models/cart');
+const userRoute = require('./routes/user');
+const frontendRoute = require('./routes/frontend');
+const backendRoute = require('./routes/backend');
 
 const { send } = require('process');
 
@@ -73,9 +73,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     console.log(req.session);
     res.locals.currentUser = req.user;
+    if(req.session.hasOwnProperty('cart')){
+        res.locals.navCart = await Cart.findById(req.session.cart._id);
+            await res.locals.navCart.populate('cart.items.productId').execPopulate(); 
+            //execpopulate只能這樣用，不能Cart.findById後連著.populate用
+    } 
+   
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
@@ -85,9 +91,11 @@ app.use('/', userRoute);
 app.use('/', frontendRoute);
 app.use('/dashboard',backendRoute);
 
+
 app.all('*', (req, res, next)=>{
     next(new ExpressError('Page Not Found', 404))
 });
+
 //handle async error
 app.use((err, req, res, next) => {
     const{ statusCode = 500 } = err;

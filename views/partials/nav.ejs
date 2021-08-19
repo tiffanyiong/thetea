@@ -167,7 +167,13 @@
                         <a href="#offcanvas-cart"
                             class="header-action-btn header-action-btn-cart offcanvas-toggle pr-0">
                             <i class="pe-7s-shopbag"></i>
-                            <span class="header-action-num">02</span>
+                            <span class="header-action-num">
+                                <% if (typeof navCart !== "undefined") { %>
+                                    <%=navCart.cart.qty_total %>
+                                <% } else {%> 
+                                    0
+                                <%} %>
+                            </span>
                             <!-- <span class="cart-amount">€30.00</span> -->
                         </a>
                         <a href="#offcanvas-mobile-menu"

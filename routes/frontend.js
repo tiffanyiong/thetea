@@ -25,7 +25,7 @@ router.get('/shop', async (req, res) => {
 })
 
 router.route('/shop/:id')
-    .get(catchAsync(shopController.renderShopProduct))
+    .get(catchAsync(shopController.renderShopProduct));
    
 router.route('/shop/:id/add-cart')
     //product_detail.ejs 
@@ -50,35 +50,23 @@ router.route('/add-to-cart')
 
 
 
-router.get('/cart', async (req, res) => {
-    let cart = null;
-    // const product = await Product.find({});
-    if(typeof req.session.cart != "undefined"){
-        cart = await Cart.findById(req.session.cart._id)
-            .populate('cart.items.productId')//this is correct.
-            .then(populatedCart => {
-                res.render('cart', { cart: populatedCart.cart });
-                
-            });
-            
-         
-        // console.log(cart.populated('cart.items.productId')); //return objectId
-        // console.log(cart.cart.items.productId[0].name);
-        
-        
-    } else {
-        res.render('cart', { cart });
-    }
-  
-})
+router.route('/cart')
+    .get(catchAsync(shopController.renderCart));
+
+router.route('/cart/:id')
+    .get(catchAsync(shopController.updateCart));
+
+
 
 router.delete('/delete-item', async (req, res) => {
     console.log("Fronted.js------delete Item is used")
     const cart = await Cart.findById(req.session.cart._id);
     await cart.deleteFromCart(req.body.product);
-   
-    res.redirect('/cart');
-})
+    //  res.status(204).send();  
+    // res.redirect('/cart');
+    res.redirect(req.get('referer'));
+
+});
 
 router.get('/logout', (req, res) => {
     req.logout();

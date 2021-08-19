@@ -7954,3 +7954,30 @@ img.vbox-figlio {
 	font-weight: bold;
 	font-family: Arial
 }
+
+
+.updateqty_text {
+    height:34px;
+    width: 88px;
+    text-align: center;
+    font-size: 14px;
+    border-style: solid;
+    border-color:#DDDDDD;
+    border-radius:4px;
+    display: inline-block;
+    vertical-align: middle;
+    
+            
+}
+.minus, .plus{
+    width:22px;
+    height:34px;
+    /* background:#f2f2f2; */
+    border-radius:4px;
+    padding:4px 5px 4px 5px;
+    border:1px  #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+}
