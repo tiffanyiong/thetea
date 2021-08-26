@@ -184,25 +184,29 @@
                     
                         <div class="grand-totall">
                             <div class="title-wrap">
-                                <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
+                                <h4 class="cart-bottom-title section-bg-gary-cart">Cart Summary</h4>
                             </div>
                             <h5>Total products <span> HK $ <%=cart.subTotal %></span></h5>
-                            <div class="total-shipping">
+                            <!-- <div class="total-shipping">
                                 <h5>Total shipping</h5>
                                 <ul>
                                     <li><input type="checkbox" /> Standard <span>$20.00</span></li>
                                     <li><input type="checkbox" /> Express <span>$30.00</span></li>
                                 </ul>
-                            </div>
+                                
+                            </div> -->
                             <h4 class="grand-totall-title">Grand Total <span>  HK $ <%=cart.subTotal %></span></h4>
+                            <p style="font-size: small;">
+                                * Shipping will be calculated at checkout
+                            </p>
                             <a href="checkout.html">Proceed to Checkout</a>
                         </div>
                         <div class="discount-code-wrapper">
                             <div class="title-wrap">
-                                <h4 class="cart-bottom-title section-bg-gray">Use Coupon帶到checkout裡</h4>
+                                <h4 class="cart-bottom-title section-bg-gray">Coupon Code</h4>
                             </div>        
                             <div class="discount-code">
-                                <p>Enter your coupon code if you have one. 在Checkout也要弄一個</p>
+                                <p>Enter your coupon code if you have one.</p>
                                 <form>
                                     <input type="text" required="" name="name" />
                                     <button class="cart-btn-2" type="submit">Apply Coupon</button>

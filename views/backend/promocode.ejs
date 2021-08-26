@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+	<%- include('partials/head') %>
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		
+<%- include('partials/nav') %>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+	
+<%- include('partials/leftslider') %>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Promo Code</h3>
+					<div class="row">
+						<div class="col-md-12">
+
+							<!--TABLE-->	
+							
+							<div class="panel panel-headline">
+								<div class="panel-heading">
+									<!-- <h3 class="panel-title">All Promocode</h3> -->
+								<div class="right">
+									<div class="col-md-12 text-right"><a href="/dashboard/promocode/new" class="btn btn-primary">Add Promo Code</a></div>
+								</div>
+									
+										
+										
+									
+								</div>
+								<div class="panel-body">
+									
+									<table class="table table-hover">
+										*Percentage 沒有折扣時 顯示為1
+										<br><br><hr>
+										<thead>
+											<tr>
+												
+												<th>Promo Code</th>		
+												<th>Description</th>										
+												<th>Discount amount</th>		
+												<th>Percentage</th>		
+												<th>Subtotal Minimum</th>
+												<th>Used Count</th>
+                                                <th>Active</th>												
+												<th>Action</th>
+
+											</tr>
+										</thead>
+
+										<tbody>
+											<% for (let promocode of promocodes) {%>
+												<tr>
+													<th><a href="/dashboard/promocode/<%=promocode._id %>"> <%=promocode.code %></a></th>													
+													<td><%=promocode.description%></td>
+													<td>$<%=promocode.discount_amount %></td>
+													<td><%=promocode.discount_percent %></td>
+													<td><%=promocode.subtotal_min %></td>													
+													<td><%=promocode.assigned_num%></td>
+													<td style="color: cadetblue;"><%=promocode.is_active %></td>
+												
+													<td>
+														<a href="/dashboard/promocode/<%=promocode._id %>/edit"> <button type="button" class="btn btn-info"><i class="lnr lnr-pencil"></i></button> </a>
+													</td>
+												</tr>
+												<% }%>
+
+										
+										</tbody>
+										
+									</table>
+									<div class="panel-footer">
+										<div class="row">
+										
+											<div class="col-md-12 text-right"><a href="/dashboard/promocode/new" class="btn btn-primary">Add Promo Code</a></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">Copyright &copy; 2017.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script src="../../dashboard/vendor/jquery/jquery.min.js"></script>
+	<script src="../../dashboard/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../dashboard/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="../../dashboard/scripts/klorofil-common.js"></script>
+</body>
+
+</html>

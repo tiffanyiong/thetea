@@ -33,6 +33,20 @@ router.get('/product/:id/edit', isLoggedIn, catchAsync(dashboard.renderEditProdu
 
 router.get('/user', isLoggedIn, catchAsync(dashboard.renderUser));
 
+router.route('/promocode')
+    .get(isLoggedIn, catchAsync (dashboard.renderPromo))
+    .post(isLoggedIn,catchAsync (dashboard.addNewPromoCode));
+
+router.route('/promocode/new')
+    .get(isLoggedIn, catchAsync (dashboard.renderPromoNew));
+
+router.route('/promocode/:id')
+    .get(isLoggedIn,catchAsync (dashboard.renderPromoSingle))
+    .put(isLoggedIn,catchAsync (dashboard.editPromocode))
+
+
+router.get('/promocode/:id/edit', isLoggedIn, catchAsync(dashboard.renderEditPromocode));
+    
 
 router.get('/logout', (req, res) => {
     

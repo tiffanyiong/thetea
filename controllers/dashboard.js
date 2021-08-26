@@ -1,7 +1,9 @@
 const Product = require('../models/product');
 const Users = require('../models/user');
+const Promocode = require('../models/promocode');
 const categories = ['Bestseller', 'Popular','Other'];
 const { cloudinary } = require("../cloudinary");
+const { findById } = require('../models/product');
 
 module.exports.index = async (req, res) =>{
     if(req.user.role != process.env.DASHBOARD_ACCESS){
@@ -118,3 +120,70 @@ module.exports.renderUser = async (req, res) => {
     const users = await Users.find({});
     res.render('backend/user_list', { users })
 };
+
+module.exports.renderPromo = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    }     
+    const promocodes = await Promocode.find({})
+    res.render('backend/promocode', { promocodes })
+}
+
+module.exports.renderPromoNew = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    }     
+
+    res.render('backend/promo_new')
+
+}
+
+module.exports.addNewPromoCode = async (req, res) => {
+    const promocode = new Promocode(req.body.promocode);
+    await promocode.save()
+    req.flash('success', 'Successfully add a promocode !')
+    res.redirect('/dashboard/promocode');
+}
+
+module.exports.renderPromoSingle = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    }     
+
+    const promocode = await Promocode.findById(req.params.id);
+    res.render('backend/promo_single',{ promocode } )
+  
+}
+
+module.exports.renderEditPromocode = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    }     
+    const promocode = await Promocode.findById(req.params.id);
+    res.render('backend/promo_edit', { promocode })
+}
+
+module.exports.editPromocode = async (req, res) => {
+
+    /*******
+     * eidt : promocode
+     */
+
+     if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+    if(!req.body.promocode) throw new ExpressError('Invalid Product Data', 400);
+
+    const { id } = req.params;
+    //split the object (we ground things like Product[name])
+    const promocode = await Promocode.findByIdAndUpdate(id, {...req.body.promocode }, {new: true})
+    await promocode.save();
+
+    req.flash('success', 'Successfully made changes!')
+    res.redirect(`/dashboard/promocode/${promocode._id}/`);
+}

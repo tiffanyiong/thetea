@@ -99,7 +99,8 @@ module.exports.updateCart = async (req, res) => {
 
         switch (action){
             case "add":
-                // console.log("--------req. params :", product_id);
+                console.log("--------req. params :", product_id);
+                console.log("------- product---- params :", product);
                 await cart.addOneProductQty(product);
                 break;
             case "remove":

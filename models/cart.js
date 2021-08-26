@@ -17,6 +17,10 @@ const cartSchema = new Schema ({
                 required: true
             }
         }],
+        promocode: {
+            type: mongoose.Types.ObjectId,
+            ref: 'Promocode'
+        },
         qty_total: Number,
         subTotal: Number
     }
