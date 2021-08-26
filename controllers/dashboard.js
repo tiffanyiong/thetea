@@ -169,10 +169,6 @@ module.exports.renderEditPromocode = async (req, res) => {
 
 module.exports.editPromocode = async (req, res) => {
 
-    /*******
-     * eidt : promocode
-     */
-
      if(req.user.role != process.env.DASHBOARD_ACCESS){
         req.flash('error', 'Sorry, you do not have access to the page');
         res.redirect('/');
@@ -186,4 +182,14 @@ module.exports.editPromocode = async (req, res) => {
 
     req.flash('success', 'Successfully made changes!')
     res.redirect(`/dashboard/promocode/${promocode._id}/`);
+}
+
+module.exports.deletePromocode = async (req, res) => {
+    if(req.user.role != process.env.DASHBOARD_ACCESS){
+        req.flash('error', 'Sorry, you do not have access to the page');
+        res.redirect('/');
+    } 
+
+    await Promocode.findByIdAndDelete(req.params.id);   
+    res.redirect('/dashboard/promocode');
 }

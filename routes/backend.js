@@ -43,6 +43,7 @@ router.route('/promocode/new')
 router.route('/promocode/:id')
     .get(isLoggedIn,catchAsync (dashboard.renderPromoSingle))
     .put(isLoggedIn,catchAsync (dashboard.editPromocode))
+    .delete(isLoggedIn, catchAsync (dashboard.deletePromocode));
 
 
 router.get('/promocode/:id/edit', isLoggedIn, catchAsync(dashboard.renderEditPromocode));
