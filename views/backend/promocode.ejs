@@ -64,7 +64,12 @@
 													<td><%=promocode.discount_percent %></td>
 													<td><%=promocode.subtotal_min %></td>													
 													<td><%=promocode.assigned_num%></td>
-													<td style="color: cadetblue;"><%=promocode.is_active %></td>
+													<% if(promocode.is_active) { %>
+														<td style="color:rgb(141, 186, 36);"> <b> Yes</b></td>
+													<%} else {%>
+														<td style="color:rgb(143, 64, 64);">No</td>
+														<% } %>
+												
 												
 													<td>
 														<a href="/dashboard/promocode/<%=promocode._id %>/edit"> <button type="button" class="btn btn-info"><i class="lnr lnr-pencil"></i></button> </a>

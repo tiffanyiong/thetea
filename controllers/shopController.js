@@ -2,8 +2,13 @@
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 const Users = require('../models/user');
-const { find } = require('../models/product');
+const { find, findById } = require('../models/product');
+const promocode = require('../models/promocode');
 const categories = ['Bestseller', 'Popular','Other'];
+const Order = require('../models/order');
+const orderid = require('order-id')('mysecret');
+
+const Regions = ["Hong Kong Island", "Kowloon", "New Terriories"]
 
 module.exports.addToCart = async (req, res, next) =>{
 
@@ -65,25 +70,27 @@ module.exports.addProductToCart = async (req, res) => {
 
 module.exports.renderCart =  async (req, res) => {
     let cart = null;
+    let action = req.query.action;
     // const product = await Product.find({});
     if(typeof req.session.cart != "undefined"){
         cart = await Cart.findById(req.session.cart._id)
             .populate('cart.items.productId')//this is correct.
+            .populate('cart.promocode')
             .then(populatedCart => {
-                res.render('cart', { cart: populatedCart.cart });
-                
+                res.render('cart', { cart: populatedCart.cart, cartId: populatedCart}); //CartId for Order
+           
             });
-            
-         
+  
         // console.log(cart.populated('cart.items.productId')); //return objectId
         // console.log(cart.cart.items.productId[0].name);
-        
-        
+           
+    
     } else {
         res.render('cart', { cart });
     }
   
 };
+
 
 module.exports.updateCart = async (req, res) => {
     let cart = null;
@@ -96,6 +103,7 @@ module.exports.updateCart = async (req, res) => {
 
         const product_id = req.params.id; //product's id
         const product = await Product.findById(product_id);
+      
 
         switch (action){
             case "add":
@@ -106,6 +114,7 @@ module.exports.updateCart = async (req, res) => {
             case "remove":
                 await cart.removeOneProductQty(product);
                 break;
+
             default:
                 console.log("You got update problems!!! ");
                 break;
@@ -114,6 +123,112 @@ module.exports.updateCart = async (req, res) => {
     res.redirect('/cart');
     }// end if
 };
+
+module.exports.applyPromocode = async (req, res) => {
+    
+    const promo_code = await promocode.find({code : req.body.promocode});
+    if(promo_code.length <= 0){ // can't find the promo
+        console.log("length: ", promo_code.length)
+        req.flash('error', 'Coupon is invalid');
+    } else {
+        const currentCart = await Cart.findById(req.session.cart._id)
+        await currentCart.addPromocodeToCart(promo_code, req);
+        const order = await Order.findById(req.session.order._id);
+        order.addPromocodeToOrder(promo_code);
+      console.log("successfully add promocode to order");
+    }
+   
+
+    console.log("shop 裡加的：",promo_code)
+    res.redirect(`/${req.session.cart._id}/checkout`);
+   
+}
+
+module.exports.renderOrder = async (req, res) => {
+//need to create order first
+const orderNum = orderid.generate();
+// 1. I can't find in the session, then create one
+// 2. found: a) order not completed, then show the value
+//    found: b) order completed, then new order
+
+if(typeof req.session.order == "undefined") { // doesn't have order
+    req.session.order = new Order({"order_info.orderNumber": orderNum});
+     await req.session.order.save();
+     console.log("----------new order:", req.session)
+ 
+    } else if (typeof req.session.order != "undefined" &&  req.session.order.order_info.is_placed_success){
+        //I found the order and it's already placed, the customer wants to create more order~
+        req.session.order = new Order({"order_info.orderNumber": orderNum});
+        await req.session.order.save();
+           
+         console.log("-------another---new order:", req.session)
+    } else { 
+        console.log("------need to check if I have placed an order, will it creates a new one later")
+    }
+
+    const order = await Order.findById(req.session.order._id);
+ 
+    const cart = await Cart.findById(req.params.id)
+        .populate('cart.items.productId')//this is correct.
+        .populate('cart.promocodes.promocodeId')
+        .then(populatedCart => {
+        res.render('checkout', { cart: populatedCart.cart, cartId: populatedCart, Regions, order});
+          })
+       
+    
+}
+
+
+
+
+
+
+module.exports.updateOrder = async (req, res) => {
+    const orderId = req.body.orderid; // the req.body from check out route
+    const cartId = req.session.cart._id;
+  
+    let action = req.query.action;
+        switch(action){
+           case "addShipping":
+               
+                const addShipping = await Order.findByIdAndUpdate(req.session.order._id,
+                    { "shipping_info.shipping_method": req.body.shipping_info.shipping_method,
+                      "shipping_info.shipping_fee":  req.body.shipping_info.shipping_fee,
+                      "order_info.customer_note":  req.body.order_info.customer_note
+                    }
+                     ,{new: true} )
+                const calculate_total = await Order.findById(req.session.order._id);
+                await calculate_total.addShippingToTotal(calculate_total.shipping_info.shipping_fee);
+            
+             res.send(req.body)
+               break;
+            case "addContact": // the req.body is from checkout route
+                console.log("adding contact info");
+                console.log("req body", req.body)
+                const updateOrder = await Order.findByIdAndUpdate(orderId,{...req.body} ,{new: true} )
+                res.redirect(`/${cartId}/checkout/shipping_method`)
+                break;
+            default:
+                console.log("something went wrong");
+                res.send("something went wrong ah")
+                break;      
+
+    }
+    // res.send("this is not using switch case")
+   
+}
+
+module.exports.renderOrderShippingMethod = async (req, res) => {
+    const order = await Order.findById(req.session.order._id);
+    const cart = await Cart.findById(req.session.cart._id)
+        .populate('cart.items.productId')//this is correct.
+        .populate('cart.promocodes.promocodeId')
+        .then(populatedCart => {
+        res.render('shipping_method', { cart: populatedCart.cart, cartId: populatedCart, Regions, order});
+        })
+}
+
+
 
 
 

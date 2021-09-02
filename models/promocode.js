@@ -13,18 +13,15 @@ const promoSchema = new Schema({
         },
         discount_percent: {
             type: Number,
+            default: 1
         },
         discount_amount: {
             type: Number,
+            default: 0
         },
-        use_once: {
-            type: Boolean
-        },
-        start_date: {
-            type: Date
-        },
-        expire_date:{
-            type: Date
+        max_use: {
+            type: Number,
+            default: 10000
         },
         assigned_num: {
             type: Number,

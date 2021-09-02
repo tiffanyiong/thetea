@@ -28,26 +28,22 @@
 									<form action="/dashboard/promocode" method="POST">
 										<br>
 										<div class="row"> 
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label for="code">Promo Code</label>
-												<input class="form-control" type="text" id="name" name="promocode[code]" placeholder="Promocode" required>
+												<input class="form-control" style="text-transform: uppercase;" type="text" id="promocode_name" name="promocode[code]" placeholder="Promocode" required>
 											</div>
 											
-											<div class="col-md-3">
-												<label for="start_date">Start Date</label>
-												<input class="form-control" type="date" id="promocode[start_date]" name="promocode[start_date]">
-
-											</div>
-											<div class="col-md-3">
-												<label for="expire_date">Expire Date</label>
-												<input class="form-control" type="date" id="promocode[expire_date]" name="promocode[expire_date]">
-												
-											</div>
-											<div class="col-md-3">
+										
+											<div class="col-md-4">
 												<label for="subtotal_min">Subtotal Minimum </label>
-												<input class="form-control" type="text" id="promocode[subtotal_min]" name="promocode[subtotal_min]" placeholder="0">
+												<input class="form-control" type="text" id="promocode[subtotal_min]" name="promocode[subtotal_min]" placeholder="0" value="0">
 												
 											</div>
+											<div class="col-md-4">
+														
+												<label for="max_use">Maximum use</label>				
+												<input  class="form-control" type="text" name="promocode[max_use]"  id="promocode[max_use]" placeholder="10000" value="10000">
+												</div>
 											
 											
 											
@@ -55,12 +51,12 @@
 										<br>
 										<div class="row">
 											
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label for="discount_amount">Discount Amount</label>									
 												<input class="form-control" type="text" id="promocode[discount_amount]" name="promocode[discount_amount]" 
 												 placeholder="直接減多少錢？"> </input>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-4">
 												<label for="discount_percent">*Discount Percentage</label>
 												<select class="form-control" name="promocode[discount_percent]" id="promocode[discount_percent]">
 													<option value="1">沒有折扣</option>
@@ -73,15 +69,9 @@
 														
 												</select>
 											</div>
-											<div class="col-md-3">
-												<label for="useOnce">Use Once</label>				
-												<select class="form-control" name="promocode[use_once]" id="promocode[use_once]" required>
-													<option value="false"> No</option>
-													<option value="true"> Yes </option>
-													</select>
-												</div>
+										
 												
-												<div class="col-md-3">
+												<div class="col-md-4">
 													<label for="active" style="color: brown;">Active</label>
 													<select class="form-control" name="promocode[is_active]" id="promocode[is_active]" required>
 														<option value="false"> No, is not activated</option>
@@ -105,27 +95,25 @@
 											</div>
 
 										</div>
-										
-										<br>	
+									
+										<br>	<br>
+										<hr>
+										* Promo Code 為了避免出bug, 系統設定為大寫英文字母(沒有小寫) 可輸入符號和數字
+										<br><br>
 										* Subtotal Minimum : 設定客人買滿多少的時候便可用此promocode
 										<br> 使用場景： 買滿HKD500可減 $20 
-										<br> 注意： 不填 - 即等於沒有限制，不需要買滿多少才能用折扣碼
+										<br> 注意： 不填 - 默認為0，不需要買滿多少才能用折扣碼
 										<br><br>
-										* Discount Amount 和 Discount Percentage 只能選一個填，如果使用discount percentage，則不需要輸入 discount Amount；
+										* Discount Amount 和 Discount Percentage 只能選一個填，如果使用discount percentage，則discount Amount 輸入 0；
 										<br>若輸入了discount Amount ，discount percentage要選"沒有折扣"
 										<br>若不小心兩個都填了，只有 percentage 有效，因為不能同時又打x折又減現金
 										<br><br>
-										* Use Once : 是否此Promo Code 只能用一次？ 
-										<br> 使用情況：只給 "一個人" 用一次。 只要此Code被使用一次便會失效
+										* Maximum use: 最多使用次數，默認為10000次；
+										<br> 使用情況： 設定只有20個promocode, 只要此Code被使用20次便會失效
 										<br><br>
 										* Active 
 										<br>
-										Promo Code 是否開始生效？ 即使你選了start date 是今天，如果你填的 Active 是 "No" 的選項，此code還是不能用；
-										<br><br>
-										* Expire Date 
-										<br>
-										當你選了有效日期，那麼當天就不能用了，儘管你把 Active 改成 Yes 也不能用
-
+										Promo Code 是否開始生效？ 
 				
 										
 					
@@ -133,7 +121,7 @@
 
 										<div class="col-md-12 text-right">
 											<br>
-											<a href="/dashboard/product" class="btn btn-warning"  > back to all product</a>
+											<a href="/dashboard/promocode" class="btn btn-warning"  > Cancel</a>
 											
 											<button id="popupbtn" class="btn btn-success" type="submit">
 												Submit 
@@ -172,6 +160,15 @@
 	<script src="../../dashboard/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="../../dashboard/scripts/klorofil-common.js"></script>
 
+	<script>
+			$(document).ready(function (){
+				$("#promocode_name").keyup(function() {
+        		this.value = this.value.toLocaleUpperCase();
+    });
+				
+
+		});
+	</script>
 
 </body>
 

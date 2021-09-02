@@ -5,70 +5,105 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
     order_info: {
         orderNumber: {
-            type: Number,
-            required: true
+            type: String
+           
         },
-        order_status: {
+        status: {
             type: String,
             default: "pending"
         },
-        shippingFee: {
-            type: Number,
-            require: true
-        },
+      
         total: {
-            type: Number,
-            require: true
+            type: Number
+            
         },
-        cartItems: {
+        final_total:{
+            type: Number,
+            default: 0
+        },
+        cartId: {
             type: mongoose.Types.ObjectId,
-            ref: 'Cart',
-            required: true
+            ref: 'Cart'
         },
         payment_method:{
             type: String
         },
-        order_date: {
+        orderCreateDate: {
             type: Date,
-            require: true
-        }
-        
-
-    },
-    contact_info: {
-        userId: {
-            type: mongoose.Types.ObjectId,
-            ref: 'User',
-        },
-        first_name: {
-            type: String,
-            required: true
-        },
-        last_name: {
-            type: String,
-            required: true
-        },
-        email: {
-            type: String,
-            required: true
-        },
-        phone_num: {
-            type: Number,
-            required: true
-        },
-        address_info: {
-           address: String,
-           address_optional: String,
-           region: String
+            default: Date.now
         },
         is_pickup: {
             type: Boolean,
             default: false
+        },
+        is_shipped:{
+            type: Boolean,
+            default: false
+        },
+        is_placed_success:{
+            type: Boolean,
+            default: false
+        },
+        promocodes: [{
+            promocodeId: {
+                type: mongoose.Types.ObjectId,
+                ref: 'Promocode',
+                default: 0
+            }
+        }],
+        is_paid:{
+            type: Boolean,
+            default: false
+        },
+        customer_note: String
+        
+
+    },
+    contact_info:{
+        email: {
+            type: String
+           
+        },
+        phone: {
+            type: Number
+        },
+        userId: {
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
         }
+    },
+    shipping_info: {
+       
+        first_name: {
+            type: String
+        },
+        last_name: {
+            type: String
+        },
+        address: String,
+        address_optional: String,
+        district: String,
+        region: String,
+        shipping_fee: {
+            type: Number,
+           
+        },
+        shipping_method:{
+            type: String
+        },
+        
     }
 
 
   
 });
+
+orderSchema.methods.addShippingToTotal = async function(fee) {
+let order_info = this.order_info;
+order_info.final_total = order_info.total + fee;
+console.log("successfully add to order total !:) ")
+console.log("-------------the order total now is : ", order_info.final_total )
+return this.save()
+}
 
 module.exports = mongoose.model('Order', orderSchema);

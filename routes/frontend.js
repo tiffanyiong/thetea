@@ -40,9 +40,9 @@ router.get('/account', isLoggedIn, (req, res) => {
     res.render('account');
 })
 
-router.get('/checkout', (req, res) => {
-    res.render('checkout');
-})
+
+
+
 
 
 router.route('/add-to-cart')
@@ -53,10 +53,21 @@ router.route('/add-to-cart')
 router.route('/cart')
     .get(catchAsync(shopController.renderCart));
 
+
+
+
 router.route('/cart/:id')
     .get(catchAsync(shopController.updateCart));
 
+router.route('/:id/checkout')
+    .get(catchAsync(shopController.renderOrder));
 
+router.route('/:id/checkout/promocode')
+    .post(catchAsync(shopController.applyPromocode));
+
+router.route('/:id/checkout/shipping_method')
+    .get(catchAsync(shopController.renderOrderShippingMethod))
+    .post(catchAsync(shopController.updateOrder));
 
 router.delete('/delete-item', async (req, res) => {
     console.log("Fronted.js------delete Item is used")

@@ -183,166 +183,70 @@
                     <div class="billing-info-wrap">
 
                         
-                        <form action="/<%=cartId._id%>/checkout/shipping_method?action=addContact" method="POST">
-                        
-                       
-                        <div class="row">
-                            <h3> Contact Information</h3>
-                         
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">Phone Number</label>
-                                    <input  class="form-control" type="text"  name="contact_info[phone]"   placeholder="Phone Number"
-                                    required 
-                                    <% if (typeof order.contact_info!= undefined && order.contact_info.phone!="") { %>
-                                        placeholder="<%=order.contact_info.phone%>"
-                                        value="<%=order.contact_info.phone%>"
-                                       <%}  else  {%>
-                                     
-                                       <%} %>
-
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">Email Address</label>
-                                    <input  class="form-control" type="text" name="contact_info[email]"     placeholder="Email Address"  required
-                                    <% if (typeof order.contact_info!= undefined && order.contact_info.email!="") { %>
-                                        placeholder="<%=order.contact_info.email%>"
-                                        value="<%=order.contact_info.email%>"
-                                       <%}  else  {%>
-                                     
-                                       <%} %>
-                               
-                                    
-                                  />
-                                </div>
-                            </div>
-                            <br>
-                            <h3> Shipping Address</h3>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">First Name</label>
-                                    <input class="form-control" type="text" name="shipping_info[first_name]"placeholder="First Name" required
-                                    <% if (typeof order.contact_info!= undefined && order.shipping_info.first_name!="") { %>
-                               
-                                        value="<%=order.shipping_info.first_name%>"
-                                       <%}  else  {%>
-                                        
-                                       <%} %>
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">Last Name</label>
-                                    <input class="form-control" type="text"    placeholder="Last Name"  name="shipping_info[last_name]"required
-                                    <% if (typeof order.contact_info!= undefined && order.shipping_info.last_name!="") { %>
-                                        value="<%=order.shipping_info.last_name%>"
-                                       <%}  else  {%>
-                                     
-                                       <%} %>
-                                    />
-                                </div>
-                            </div>
-                            
-                    
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">Address</label>
-                                    <input class="form-control" placeholder="Address"  name="shipping_info[address]" type="text" required
-                                    <% if (typeof order.shipping_info!= undefined && order.shipping_info.address!="") { %>
-                                      
-                                        value="<%=order.shipping_info.address%>"
-                                       <%}  else  {%>
-                              
-                                       <%} %>
-                                    />
-                                        <br>
-                                    <input class="form-control"  type="text"   placeholder="Apartment, suite, unit etc."
-                                    name="shipping_info[address_optional]"
-                                    
-                                    <% if (typeof order.shipping_info!= undefined && order.shipping_info.address_optional!="") { %>
-                                        
-                                        value="<%=order.shipping_info.address_optional%>"
-                                       <%}  else  {%>
-                                      
-                                       <%} %>/>
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">District</label>
-                                    <input class="form-control" type="text"   placeholder="District"name="shipping_info[district]"  required
-                                    <% if (typeof order.shipping_info!= undefined && order.shipping_info.district!="") { %>
-                                        placeholder="<%=order.shipping_info.district%>"
-                                        value="<%=order.shipping_info.district%>"
-                                       <%}  else  {%>
-                                   
-                                       <%} %>
-                                  
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-4">
-                                    <label style="font-size: small;">Region</label>
-                                    <select name="shipping_info[region]" class="form-control" placeholder="Region" required>
-                                        <% if (typeof order.shipping_info!= undefined && order.shipping_info.region!="") { %>
-                                        <% for (let region of Regions ) { %>
-                                            <option value="<%=region %>" <%= order.shipping_info.region === region? 'selected': '' %>> <%=region %></option>
-
-                                            <% } %>
-                                            <% }%>
-                                       
-                                        </select>
-                                </div>
-                            </div>
-                            
-                        </div>
-                     
-
-                        
-                         <!-- <div class="checkout-account mb-30px">
-                            <input class="checkout-toggle2 w-auto h-auto" type="checkbox" />
-                            <label>Create an account?</label>
-                        </div>
-                        <div class="checkout-account-toggle open-toggle2 mb-30">
-                            <input placeholder="Email address" type="email" />
-                            <input placeholder="Password" type="password" />
-                            <button class="btn-hover checkout-btn" type="submit">register</button>
-                        </div> 
-                         -->
+                        <form action="/thankyou" method="POST">
                        
 
                     </div>
-                    <div class="col-lg-8">
-                
-                     <button style="background-color: #EAAA85; color: white; border-radius: 5px;
-                     padding: 15px 30px;" type="submit">
-                        Continue to shipping
-                     </button>
-                     <input hidden name="order_info[cartId]" value="<%=cartId._id%>"> 
-                     <input hidden name="order_info[total]" value="<%=cart.subTotal%>">
-                     <input hidden name="orderid" value="<%=order._id%>">
-                  
-                
-                    </form>
-                    <a style =" padding-left: 30px; color: black;"href="/cart"> Return to cart</a>
-                     </div>
+                    <div class="checkout-account mt-25">
+                        <span class="checkout-toggle w-auto h-auto" />
+                 
+                        <!-- <button class="button" id="hover-item" style="font-size: x-large;"> <i class="pe-7s-map-marker "></i> Pick up THE Tea </button> -->
+                        <h2> Shipping Methods</h2>
+                    </div>
                     <div class="different-address mt-30px"> <!-- open-toggle-->
                         <div class="row">
-                            
-                          
+                            <div class="col-md-9">
+                                <input class=" shipping_method1 w-auto h-auto" name="order[shipping_method]" type="radio" value="順豐20" />
+                                <label >地址1: 下單後24小時內有專人聯繫您 </label>
+                                <br>
+                                <input class=" shipping_method2 w-auto h-auto" name="order[shipping_method]" type="radio" value="順豐30"/>
+                                <label>地址2: 下單後24小時內有專人聯繫您 </label>
+                                <br>
+                                <input class=" shipping_method3 w-auto h-auto" name="order[shipping_method]" type="radio" value="自取"/>
+                                <label>自取貨品 </label>
+                            </div>
+                            <div class="col-md-1 right">
+                                
+                                <label>$ 20</label>
+                                <br>
+                                <label>$ 30</label>
+                                <br>
+                                <label>Free</label>
+                                <br>
+                            </div>
+                           
+                            <!-- <div class="col-lg-12 col-md-12">
+                                <div class="billing-info mb-4">
+                                  
+                                
+                                    <select class="form-control" id="pick_up"type="text" >
+                                        <option value="地址1"> 地址1: 下單後24小時內有專人聯繫您</option>
+                                        <option value="地址2"> 地址2: 下單後24小時內有專人聯繫您</option>
+                                        <option value="地址3"> 地址3: 下單後24小時內有專人聯繫您</option>
+                                    </select>
+                                </div>
+                            </div>
+                             -->
                         </div>
                     </div>
                     <br><br><br>
             
 
-                    
+                    <div class="additional-info-wrap">
+                        <h4>Additional information</h4>
+                        <div class="additional-info">
+                         
+                            <textarea class="form-control" placeholder="Notes about your order, e.g. special notes for delivery. "
+                                name="message"></textarea>
+                        </div>
+                    </div>
+                    <br> <br> 
+                    <button style="background-color: #EAAA85; color: white; border-radius: 5px;
+                    padding: 15px 30px;" type="submit">
+                       Continue to payment
+                    </button>
+
+                    <a style =" padding-left: 30px; color: black;"href="/<%=order.order_info.cartId%>/checkout"> Return to information</a>
 
                     
                 </div>
@@ -358,7 +262,6 @@
                                     </ul>
                                 </div>
                                 <div class="your-order-middle">
-
                                     <% if (cart === null || cart.items.length == 0) { %>
                                         
                                         <% } else { %>
@@ -375,9 +278,9 @@
                                                      <%= cart.items[i].productId.name %> x <%= cart.items[i].qty%></span>
 
                                                     <% if (cart.items[i].productId.onsale) { %> 
-                                                        <span  style="margin-top:12px;" class="order-price"> $<%=cart.items[i].productId.saleprice * cart.items[i].qty %> </span></li>
+                                                        <span  style="margin-top:12px;" class="order-price"> $<%= cart.items[i].productId.saleprice %> </span></li>
                                                         <% }  else { %>
-                                                            <span  style="margin-top:12px; "class="order-price"> $<%= cart.items[i].productId.price * cart.items[i].qty %> </span></li>
+                                                            <span  style="margin-top:12px; "class="order-price"> $<%= cart.items[i].productId.price %> </span></li>
                                                             <% }%> 
                                                  
                                           
@@ -389,40 +292,84 @@
                                 </div>
                                 <div class="your-order-bottom">
                                     <ul>
-                                        <li class="your-order-shipping"> Subtotal </li>
-                                        <li>  $<%=cart.subTotal + cart.discount%> </li>
-                                    </ul>
-                                    <ul>
                                         <% if (cart.promocodes.length > 0 ) { %>
-                                            <li class="your-order-shipping"><span style="color: #EAAA85;padding-left: 5px;"> 
+                                            <li class="your-order-shipping">Promocde: <span style="color: #EAAA85;padding-left: 5px;"> 
                                                 <i class="fa fa-tag" style="padding-right: 5px;"> </i><%=cart.promocodes[0].promocodeId.code%> </span></li>
                                             <li>
                                             <span style="color:#EAAA85;">
-                                                - $<%=cart.discount%>
+                                                - $ <%=cart.discount%>
                                             </span></li>
                                             <% } %>
                                     </ul>
                                     <ul>
                                         <li class="your-order-shipping">Shipping</li>
-                                        <li><span style="font-size: small;">*will be calculated on the next page</span> </li>
-                                      
-                                        
+                                        <li><span style="font-size: small;">$</span> </li>
+                               
                                     </ul>
                                    
                                 </div>
-
-                                
-                                
-
-                                <div class="your-order-total" style="border-bottom: 0;">
+                         
+                                <div class="your-order-total">
                                     <ul>
                                         <li class="order-total">Total</li>
                                         <li><span style="color:rgb(171, 167, 167); font-size: small;font-weight: 100; padding-right: 10px;"> HKD </span>
                                             <span style="font-size: x-large ; color: black">  HK$<%=cart.subTotal%>  </span></li>
                                     </ul>
                                 </div>
+                                
                             </div>
                             
+                            <div class="payment-method">
+                                <div class="payment-accordion element-mrg">
+                                    <div id="faq" class="panel-group">
+                                        <div class="panel panel-default single-my-account m-0">
+                                            <div class="panel-heading my-account-title">
+                                                <h4 class="panel-title"><a data-bs-toggle="collapse"
+                                                        href="#my-account-1" class="collapsed"
+                                                        aria-expanded="true">Direct bank transfer</a>
+                                                </h4>
+                                            </div>
+                                            <div id="my-account-1" class="panel-collapse collapse show"
+                                                data-bs-parent="#faq">
+
+                                                <div class="panel-body">
+                                                    <p>Please send a check to Store Name, Store Street, Store Town,
+                                                        Store State / County, Store Postcode.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default single-my-account m-0">
+                                            <div class="panel-heading my-account-title">
+                                                <h4 class="panel-title"><a data-bs-toggle="collapse"
+                                                        href="#my-account-2" aria-expanded="false"
+                                                        class="collapsed">Check payments</a></h4>
+                                            </div>
+                                            <div id="my-account-2" class="panel-collapse collapse"
+                                                data-bs-parent="#faq">
+
+                                                <div class="panel-body">
+                                                    <p>Please send a check to Store Name, Store Street, Store Town,
+                                                        Store State / County, Store Postcode.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default single-my-account m-0">
+                                            <div class="panel-heading my-account-title">
+                                                <h4 class="panel-title"><a data-bs-toggle="collapse"
+                                                        href="#my-account-3">Cash on delivery</a></h4>
+                                            </div>
+                                            <div id="my-account-3" class="panel-collapse collapse"
+                                                data-bs-parent="#faq">
+
+                                                <div class="panel-body">
+                                                    <p>Please send a check to Store Name, Store Street, Store Town,
+                                                        Store State / County, Store Postcode.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             
                         </div>
@@ -433,11 +380,10 @@
                             </div>        
                             <div class="discount-code">
                                 <p>Enter your coupon code if you have one.</p>
-                                    <form action="/<%=cartId._id%>/checkout/promocode" method="POST">
-                                        
+                                    <form action="/cart/promocode" method="POST">
                                         <input type="text" name="promocode" id="promocode_name" />
-                                        
-                                        <button type="submit" class="cart-btn-2">Apply Coupon</button>
+
+                                        <button type="submit" class="cart-btn-2">Apply Coupon</a>
                                     </form>
                                  
                                 
@@ -460,8 +406,11 @@
                         
                         
                     </div>
-                    
-          
+                    <div class="Place-order mt-25">
+                        
+                        <a class="btn-hover" href="#"><button class="button" type="submit"> Place Order</button></a>
+                    </div>
+                </form> 
                     </div>
                 </div>
             </div>
@@ -490,7 +439,7 @@
                                 action="#"
                                 >
                                 <div id="mc_embed_signup_scroll" class="mc-form">
-                                    <input class="email" type="email" required
+                                    <input class="email" type="email" required=""
                                         placeholder="Enter Your Mail Here......." name="EMAIL" value="">
                                     <div class="mc-news d-none" aria-hidden="true">
                                         <input type="text" value="" tabindex="-1"
@@ -672,7 +621,7 @@
     <script>
         $(document).ready(function (){
             $(".shipping_method1").click(function() {
-           $("#shipping_fee").text("20" )
+           $("#shipping_fee").text("20")
 
             });
 
@@ -684,13 +633,6 @@
            $("#shipping_fee").text("0")
 
             });
-      
-            $("#promocode_name").keyup(function() {
-            this.value = this.value.toLocaleUpperCase();
-            });
-            
-
-
 
 
     });

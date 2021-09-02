@@ -426,12 +426,17 @@
         Create an account toggle
     ---------------------------------*/
     $(".checkout-toggle2").on("click", function () {
+
         $(".open-toggle2").slideToggle(1000);
+        // $(".open-toggle").not(".open-toggle2").slideUp();
     });
 
     $(".checkout-toggle").on("click", function () {
         $(".open-toggle").slideToggle(1000);
+        // $(".open-toggle2").not(".open-toggle").slideUp();
     });
+
+    
 
 
     /*---------------------
