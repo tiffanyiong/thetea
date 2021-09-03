@@ -133,8 +133,7 @@ module.exports.applyPromocode = async (req, res) => {
     } else {
         const currentCart = await Cart.findById(req.session.cart._id)
         await currentCart.addPromocodeToCart(promo_code, req);
-        const order = await Order.findById(req.session.order._id);
-        order.addPromocodeToOrder(promo_code);
+    
       console.log("successfully add promocode to order");
     }
    
