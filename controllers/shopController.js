@@ -100,7 +100,6 @@ module.exports.updateCart = async (req, res) => {
     if(typeof req.session.cart != "undefined"){
         cart = await Cart.findById(req.session.cart._id);
         await cart.populate('cart.items.productId').execPopulate();
-
         const product_id = req.params.id; //product's id
         const product = await Product.findById(product_id);
       
@@ -133,6 +132,7 @@ module.exports.applyPromocode = async (req, res) => {
     } else {
         const currentCart = await Cart.findById(req.session.cart._id)
         await currentCart.addPromocodeToCart(promo_code, req);
+        
     
       console.log("successfully add promocode to order");
     }
@@ -179,13 +179,9 @@ if(typeof req.session.order == "undefined") { // doesn't have order
 
 
 
-
-
-
 module.exports.updateOrder = async (req, res) => {
     const orderId = req.body.orderid; // the req.body from check out route
     const cartId = req.session.cart._id;
-  
     let action = req.query.action;
         switch(action){
            case "addShipping":
@@ -198,9 +194,12 @@ module.exports.updateOrder = async (req, res) => {
                      ,{new: true} )
                 const calculate_total = await Order.findById(req.session.order._id);
                 await calculate_total.addShippingToTotal(calculate_total.shipping_info.shipping_fee);
-            
-             res.send(req.body)
+                
+             // then render to payment
+              res.redirect(`/${cartId}/checkout/payment`)
                break;
+
+
             case "addContact": // the req.body is from checkout route
                 console.log("adding contact info");
                 console.log("req body", req.body)
@@ -227,7 +226,47 @@ module.exports.renderOrderShippingMethod = async (req, res) => {
         })
 }
 
+// not in use
+module.exports.renderPayment = async (req, res) => { 
+    const order = await Order.findById(req.session.order._id);
+    const cart = await Cart.findById(req.session.cart._id)
+        .populate('cart.items.productId')//this is correct.
+        .populate('cart.promocodes.promocodeId')
+        .then(populatedCart => {
+        res.render('payment', { cart: populatedCart.cart, cartId: populatedCart, Regions, order});
+        })
 
+
+}
+
+//create payment-intent
+module.exports.createPaymentIntent = async (req, res) => {
+    const orderId = req.body.orderid; // the req.body from check out route
+    const cartId = req.session.cart._id;
+    
+ 
+    const order = await Order.findById(req.session.order._id);
+    await order.placeOrderStatus();
+    req.session.cart = await new Cart({});
+    await req.session.cart.save();
+    await 
+    
+    res.send("it's working");
+    
+
+};
+
+// module.exports.renderThankyou = async (req, res) => { 
+//     // const order = await Order.findById(req.session.order._id);
+//     // const cart = await Cart.findById(req.session.cart._id)
+//     //     .populate('cart.items.productId')//this is correct.
+//     //     .populate('cart.promocodes.promocodeId')
+//     //     .then(populatedCart => {
+//     //     res.render('thankyou', { cart: populatedCart.cart, cartId: populatedCart, Regions, order});
+//     //     })
+//     res.render('thankyou');
+
+// }
 
 
 

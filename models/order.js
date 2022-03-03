@@ -106,4 +106,17 @@ console.log("-------------the order total now is : ", order_info.final_total )
 return this.save()
 }
 
+orderSchema.methods.placeOrderStatus = async function(){
+    let order_info = this.order_info;
+    order_info.is_placed_success = true;
+    if(order_info.is_placed_success){
+        console.log("already change the is_placed_success");
+      
+    } else {
+        console.log("didn't change is_placed_success to true");
+    }
+    return this.save();
+}
+
+
 module.exports = mongoose.model('Order', orderSchema);

@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "product") {
     require('dotenv').config();
 }
 
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -23,7 +24,9 @@ const { send } = require('process');
 // const flash = require('connect-flash')
 
 
-mongoose.connect('mongodb://localhost:27017/the-tea-shop', {
+const dbUrl = process.env.DB_URL;
+// 'mongodb://localhost:27017/the-tea-shop' or udUrl <--this is mongo db online
+mongoose.connect(dbUrl, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     //findByIdAndUpdate will be affected: so useFindAndModify true -> false
@@ -37,6 +40,7 @@ mongoose.connect('mongodb://localhost:27017/the-tea-shop', {
     console.log(err);
 })
 
+
 //npx nodemon app.js
 
 const app = express();
@@ -44,6 +48,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 // parms the body!? normally it returns empty req.body, 

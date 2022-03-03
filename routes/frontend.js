@@ -23,6 +23,9 @@ router.get('/shop', async (req, res) => {
     const products = await Product.find({});
     res.render('shop', { products });
 })
+router.get('/thankyou', (req, res) => {
+    res.render('thankyou');
+})
 
 router.route('/shop/:id')
     .get(catchAsync(shopController.renderShopProduct));
@@ -41,10 +44,6 @@ router.get('/account', isLoggedIn, (req, res) => {
 })
 
 
-
-
-
-
 router.route('/add-to-cart')
     .post(catchAsync(shopController.addToCart));
 
@@ -52,8 +51,6 @@ router.route('/add-to-cart')
 
 router.route('/cart')
     .get(catchAsync(shopController.renderCart));
-
-
 
 
 router.route('/cart/:id')
@@ -69,6 +66,10 @@ router.route('/:id/checkout/shipping_method')
     .get(catchAsync(shopController.renderOrderShippingMethod))
     .post(catchAsync(shopController.updateOrder));
 
+router.route('/:id/checkout/payment')
+    .get(catchAsync(shopController.renderPayment))
+    .post(catchAsync(shopController.createPaymentIntent));
+
 router.delete('/delete-item', async (req, res) => {
     console.log("Fronted.js------delete Item is used")
     const cart = await Cart.findById(req.session.cart._id);
@@ -78,6 +79,7 @@ router.delete('/delete-item', async (req, res) => {
     res.redirect(req.get('referer'));
 
 });
+
 
 router.get('/logout', (req, res) => {
     req.logout();

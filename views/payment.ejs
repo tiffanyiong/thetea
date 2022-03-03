@@ -191,63 +191,28 @@
                         <span class="checkout-toggle w-auto h-auto" />
                  
                         <!-- <button class="button" id="hover-item" style="font-size: x-large;"> <i class="pe-7s-map-marker "></i> Pick up THE Tea </button> -->
-                        <h2> Shipping Methods</h2>
-                    </div>
-                    <div class="different-address mt-30px"> <!-- open-toggle-->
-                        <div class="row">
-                            <div class="col-md-9">
-                                <input class=" shipping_method1 w-auto h-auto" name="order[shipping_method]" type="radio" value="順豐20" />
-                                <label >地址1: 下單後24小時內有專人聯繫您 </label>
-                                <br>
-                                <input class=" shipping_method2 w-auto h-auto" name="order[shipping_method]" type="radio" value="順豐30"/>
-                                <label>地址2: 下單後24小時內有專人聯繫您 </label>
-                                <br>
-                                <input class=" shipping_method3 w-auto h-auto" name="order[shipping_method]" type="radio" value="自取"/>
-                                <label>自取貨品 </label>
-                            </div>
-                            <div class="col-md-1 right">
-                                
-                                <label>$ 20</label>
-                                <br>
-                                <label>$ 30</label>
-                                <br>
-                                <label>Free</label>
-                                <br>
-                            </div>
+                        <h2> Payment Methods</h2>
+                        <form id="payment-form">
                            
-                            <!-- <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-4">
-                                  
-                                
-                                    <select class="form-control" id="pick_up"type="text" >
-                                        <option value="地址1"> 地址1: 下單後24小時內有專人聯繫您</option>
-                                        <option value="地址2"> 地址2: 下單後24小時內有專人聯繫您</option>
-                                        <option value="地址3"> 地址3: 下單後24小時內有專人聯繫您</option>
-                                    </select>
-                                </div>
-                            </div>
-                             -->
-                        </div>
+                              
+                       <button> <a href="https://buy.stripe.com/test_14k16n1y8fAW3Ru000"> Pay by Stripe Now (TestMode)</a></button>
+                          </form>
                     </div>
+                  
                     <br><br><br>
             
 
-                    <div class="additional-info-wrap">
-                        <h4>Additional information</h4>
-                        <div class="additional-info">
-                         
-                            <textarea class="form-control" placeholder="Notes about your order, e.g. special notes for delivery. "
-                                name="message"></textarea>
-                        </div>
-                    </div>
+                    
                     <br> <br> 
+                    <form action="/<%=cartId %>/checkout/payment" method="POST">
                     <button style="background-color: #EAAA85; color: white; border-radius: 5px;
                     padding: 15px 30px;" type="submit">
-                       Continue to payment
+                       Place Order
                     </button>
+              
 
-                    <a style =" padding-left: 30px; color: black;"href="/<%=order.order_info.cartId%>/checkout"> Return to information</a>
-
+                    <a style =" padding-left: 30px; color: black;"href="/<%=order.order_info.cartId%>/checkout/shipping_method"> Return to shipping</a>
+                </form> <!--place order form-->
                     
                 </div>
                 <div class="col-lg-5 mt-md-30px mt-lm-30px ">
@@ -303,7 +268,7 @@
                                     </ul>
                                     <ul>
                                         <li class="your-order-shipping">Shipping</li>
-                                        <li><span style="font-size: small;">$</span> </li>
+                                        <li><span>$<%=order.shipping_info.shipping_fee%></span> </li>
                                
                                     </ul>
                                    
@@ -313,103 +278,21 @@
                                     <ul>
                                         <li class="order-total">Total</li>
                                         <li><span style="color:rgb(171, 167, 167); font-size: small;font-weight: 100; padding-right: 10px;"> HKD </span>
-                                            <span style="font-size: x-large ; color: black">  HK$<%=cart.subTotal%>  </span></li>
+                                            <span style="font-size: x-large ; color: black">  HK$<%=order.order_info.final_total %>  </span></li>
                                     </ul>
                                 </div>
                                 
                             </div>
-                            
-                            <div class="payment-method">
-                                <div class="payment-accordion element-mrg">
-                                    <div id="faq" class="panel-group">
-                                        <div class="panel panel-default single-my-account m-0">
-                                            <div class="panel-heading my-account-title">
-                                                <h4 class="panel-title"><a data-bs-toggle="collapse"
-                                                        href="#my-account-1" class="collapsed"
-                                                        aria-expanded="true">Direct bank transfer</a>
-                                                </h4>
-                                            </div>
-                                            <div id="my-account-1" class="panel-collapse collapse show"
-                                                data-bs-parent="#faq">
-
-                                                <div class="panel-body">
-                                                    <p>Please send a check to Store Name, Store Street, Store Town,
-                                                        Store State / County, Store Postcode.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel panel-default single-my-account m-0">
-                                            <div class="panel-heading my-account-title">
-                                                <h4 class="panel-title"><a data-bs-toggle="collapse"
-                                                        href="#my-account-2" aria-expanded="false"
-                                                        class="collapsed">Check payments</a></h4>
-                                            </div>
-                                            <div id="my-account-2" class="panel-collapse collapse"
-                                                data-bs-parent="#faq">
-
-                                                <div class="panel-body">
-                                                    <p>Please send a check to Store Name, Store Street, Store Town,
-                                                        Store State / County, Store Postcode.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel panel-default single-my-account m-0">
-                                            <div class="panel-heading my-account-title">
-                                                <h4 class="panel-title"><a data-bs-toggle="collapse"
-                                                        href="#my-account-3">Cash on delivery</a></h4>
-                                            </div>
-                                            <div id="my-account-3" class="panel-collapse collapse"
-                                                data-bs-parent="#faq">
-
-                                                <div class="panel-body">
-                                                    <p>Please send a check to Store Name, Store Street, Store Town,
-                                                        Store State / County, Store Postcode.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            
+                         
                         </div>
 
-                        <div class="discount-code-wrapper">
-                            <div class="title-wrap">
-                                <h4 class="cart-bottom-title section-bg-gray">Coupon Code</h4>
-                            </div>        
-                            <div class="discount-code">
-                                <p>Enter your coupon code if you have one.</p>
-                                    <form action="/cart/promocode" method="POST">
-                                        <input type="text" name="promocode" id="promocode_name" />
-
-                                        <button type="submit" class="cart-btn-2">Apply Coupon</a>
-                                    </form>
-                                 
-                                
-                                
-                            </div>
-
-                            <% if(success && success.length) {%>
-                                <span style="color: green; font-size: small;">     
-                                    <%= success %>
-
-                                </span>
-                                   
-                                <% } %>
-                                
-                                <% if(error && error.length) {%>
-                                    <span style="color:#EAAA85; font-size: small;">     
-                                    <%= error %>
-                                    </span>
-                                <% } %>
-                        
-                        
-                    </div>
+                        <form action="/<%=cartId %>/checkout/payment" method="POST">
                     <div class="Place-order mt-25">
                         
-                        <a class="btn-hover" href="#"><button class="button" type="submit"> Place Order</button></a>
+                        <a class="btn-hover"><button class="button" type="submit"> Place Order</button></a>
                     </div>
+                </form> <!--place order form-->
+               
                 </form> 
                     </div>
                 </div>
@@ -419,178 +302,7 @@
 </div>
     <!-- checkout area end -->
 
-    <div class="newsletter-area ">
-        <div class="container line-shape-bottom">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="newsletter-content mb-lm-30px">
-                        <i class="pe-7s-mail-open-file"></i>
-                        <div class="newsletter-text">
-                            <h3 class="title">Newsletter & Get Updates</h3>
-                            <p>Sign up for our newsletter to get update from us</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="news-letter-form">
-                        <div id="mc_embed_signup" class="subscribe-form">
-                            <form id="mc-embedded-subscribe-form" class="validate" novalidate="" target="_blank"
-                                name="mc-embedded-subscribe-form" method="post"
-                                action="#"
-                                >
-                                <div id="mc_embed_signup_scroll" class="mc-form">
-                                    <input class="email" type="email" required=""
-                                        placeholder="Enter Your Mail Here......." name="EMAIL" value="">
-                                    <div class="mc-news d-none" aria-hidden="true">
-                                        <input type="text" value="" tabindex="-1"
-                                            name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef">
-                                    </div>
-                                    <div class="clear">
-                                        <button id="mc-embedded-subscribe" class="button" type="submit" name="subscribe"
-                                            value=""> Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer Area Start -->
-    <div class="footer-area">
-        <div class="footer-container">
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-                        <!-- Start single blog -->
-                        <div class="col-md-6 col-sm-6 col-lg-3 mb-md-30px mb-lm-30px">
-                            <div class="single-wedge">
-                                <h4 class="footer-herading">Information</h4>
-                                <div class="footer-links">
-                                    <div class="footer-row">
-                                        <ul class="align-items-center">
-                                            <li class="li"><a class="single-link" href="about.html">About us</a></li>
-                                            <li class="li"><a class="single-link" href="#">Delivery information</a></li>
-                                            <li class="li"><a class="single-link" href="privacy-policy.html">Privacy
-                                                    Policy</a></li>
-                                            <li class="li"><a class="single-link" href="#">Sales</a></li>
-                                            <li class="li"><a class="single-link" href="#">Terms & Conditions</a></li>
-                                            <li class="li"><a class="single-link" href="#">Shipping Policy</a></li>
-                                            <li class="li"><a class="single-link" href="#">EMI Payment</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End single blog -->
-                        <!-- Start single blog -->
-                        <div class="col-md-6 col-lg-3 col-sm-6 mb-lm-30px">
-                            <div class="single-wedge">
-                                <h4 class="footer-herading">Account</h4>
-                                <div class="footer-links">
-                                    <div class="footer-row">
-                                        <ul class="align-items-center">
-                                            <li class="li"><a class="single-link" href="my-account.html"> My account</a>
-                                            </li>
-                                            <li class="li"><a class="single-link" href="cart.html">My orders</a></li>
-                                            <li class="li"><a class="single-link" href="#">Returns</a></li>
-                                            <li class="li"><a class="single-link"
-                                                    href="shop-left-sidebar.html">Shipping</a></li>
-                                            <li class="li"><a class="single-link" href="wishlist.html">Wishlist</a></li>
-                                            <li class="li"><a class="single-link" href="#">How Does It Work</a></li>
-                                            <li class="li"><a class="single-link" href="#">Merchant Sign Up</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End single blog -->
-                        <!-- Start single blog -->
-                        <div class="col-md-6 col-lg-2 col-sm-6 mb-sm-30px">
-                            <div class="single-wedge">
-                                <h4 class="footer-herading">Store </h4>
-                                <div class="footer-links">
-                                    <div class="footer-row">
-                                        <ul class="align-items-center">
-                                            <li class="li"><a class="single-link" href="index.html">Affiliate</a></li>
-                                            <li class="li"><a class="single-link"
-                                                    href="shop-left-sidebar.html">Bestsellers</a></li>
-                                            <li class="li"><a class="single-link" href="#">Discount</a></li>
-                                            <li class="li"><a class="single-link" href="#">Latest products</a></li>
-                                            <li class="li"><a class="single-link" href="#">Sale</a></li>
-                                            <li class="li"><a class="single-link" href="#">All Collection</a></li>
-                                            <li class="li"><a class="single-link" href="contact.html">Contact Us</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End single blog -->
-                        <!-- Start single blog -->
-                        <div class="col-md-6 col-lg-4 col-sm-6 pl-120px line-shape">
-                            <div class="single-wedge ">
-
-                                <h4 class="footer-herading">Contact Us</h4>
-                                <div class="footer-links">
-                                    <!-- News letter area -->
-                                    <p class="mail">If you have any question.please <br>
-                                        contact us at <a href="mailto:demo@example.com">demo@example.com</a> </p>
-                                    <p class="address"><i class="pe-7s-map-marker"></i> <span>Your address goes here.
-                                            <br>
-                                            123, Address.</span> </p>
-                                    <p class="phone m-0"><i class="pe-7s-phone"></i><span><a href="tel:0123456789">+ 0
-                                                123
-                                                456 789</a> <br> <a href="tel:0123456789">+ 0 123 456 789</a></span></p>
-
-                                    <!-- News letter area  End -->
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End single blog -->
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="container">
-                    <div class="line-shape-top">
-                        <div class="row flex-md-row-reverse align-items-center">
-                            <div class="col-md-6 text-center text-md-end">
-                                <div class="payment-mth"><a href="#"><img class="img img-fluid"
-                                            src="/images/icons/payment.png" alt="payment-image"></a></div>
-                            </div>
-                            <div class="col-md-6 text-center text-md-start">
-                                <p class="copy-text">Copyright &copy; 2021.Company name All rights reserved.<a target="_blank" href="https://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer Area End -->
-
-    <!-- Search Modal Start -->
-    <div class="modal popup-search-style" id="searchActive">
-        <button type="button" class="close-btn" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-        <div class="modal-overlay">
-            <div class="modal-dialog p-0" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h2>Search Your Product</h2>
-                        <form class="navbar-form position-relative" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search here...">
-                            </div>
-                            <button type="submit" class="submit-btn"><i class="pe-7s-search"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <!-- Search Modal End -->
 
     <!-- Global Vendor, plugins JS -->

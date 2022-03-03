@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zxx">
+    <%- include("partials/head") %>
+<body>
+
+
+    <!-- Header Area Start -->
+    <%- include("partials/nav") %>
+                    
+    <!-- Header Area End -->
+    <div class="offcanvas-overlay"></div>
+
+    <!-- OffCanvas Wishlist Start -->
+    <%- include("partials/off-wishlist") %>
+    <!-- OffCanvas Wishlist End -->
+    <!-- OffCanvas Cart Start -->
+    <%- include("partials/off-cart") %>
+    
+    <div class="cart-main-area pt-100px pb-100px">
+        <div class="container">
+            <% if (cart === null || cart.items.length == 0) { %>
+                <div class="empty-cart-area pb-100px pt-100px">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="cart-heading">
+                                    <h2>Your cart item</h2>
+                                </div>
+                                <div class="empty-text-contant text-center">
+                                    <i class="pe-7s-shopbag"></i>
+                                    <h3>Shop now</h3>
+                                    <a class="empty-cart-btn" href="/shop">
+                                        <i class="fa fa-arrow-left"> </i> Continue shopping
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } else {%> 
+            <h3 class="cart-page-title">Your Order Detail Cart</h3>
+            <% } %>
+            <div class="row">
+               
+                    <div class="col-xs-12 col-lg-8">
+                  
+                        <div class="table-content table-responsive cart-table-content">
+                            <table>
+                                        <!-- item 是可以等於 null (沒有的時候)-->
+                                     
+                                        <% if (cart === null || cart.items.length == 0) { %> 
+                                            <% } else { %>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Product Name</th>
+                                                <th>Qty</th>
+                                                <th>SubTotal</th>
+                                              
+                                                
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          
+                                       <% } %>
+                                
+                                    <% if (cart === null || cart.items.length == 0) { %>
+                                        
+                                    <% } else { %>
+                                    
+                                    <% for (let i = 0; i < cart.items.length ; i++) {%>
+                                   
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="#"><img class="img-responsive ml-15px"
+                                                    src="<%=cart.items[i].productId.image[0].url%>" alt="" /></a>
+                                        </td>                                
+                                     
+                                        <td class="product-name"><a href="/shop/<%=cart.items[i].productId._id %>"><%= cart.items[i].productId.name %></a><br>
+                                        <% if (cart.items[i].productId.onsale) { %> 
+                                        <span style="text-decoration: line-through; padding-right: 10px;
+                                                    font-size: small;">
+                                            HK$ <%= cart.items[i].productId.price %> </span> 
+                                        <span>HK$ <%= cart.items[i].productId.saleprice %></span> 
+                                    
+                                        <% } else {%> 
+                                         <span>HK$ <%= cart.items[i].productId.price %> </span> 
+                                        <% } %>
+                                    </td>
+                                     
+                                       
+                                        <td class="product-quantity">
+                                            <!-- <div class="cart-plus-minus">
+                                             
+                                                <input class="cart-plus-minus-box" type="text" name="qtybutton"
+                                                    value="<%= cart.items[i].qty %>" />
+                                              
+                                            </div> -->
+                                            <div>
+                                               <a href="/cart/<%= cart.items[i].productId._id%>?action=remove" class="minus" style="color: #515151;"> - </a>
+                                                <input class="updateqty_text"type="text" value="<%= cart.items[i].qty %>"/>
+                                                <a href="/cart/<%= cart.items[i].productId._id%>?action=add" class="plus" style="color: #515151;"> + </a>
+                                            </div>
+                                        </td>
+                                        <td class="product-price-cart"><span class="amount">
+                                            <% if(cart.items[i].productId.onsale) { %>
+                                            HK$ <%=cart.items[i].qty * cart.items[i].productId.saleprice %></span>
+                                           <% } else { %> 
+                                            HK$ <%=cart.items[i].qty * cart.items[i].productId.price %>
+                                            <% } %> </td>
+
+                                        <td class="product-remove">
+                                           
+                                            <!--delete button-->
+                                            <form action='/delete-item?_method=DELETE' method="POST">
+                                                <input type="hidden" name="product[id]" value="<%=cart.items[i].productId._id%>">
+                                                <input type="hidden" name="product[onsale]" value="<%= cart.items[i].productId.onsale %>">
+                                                <input type="hidden" name="product[price]" value="<%= cart.items[i].productId.price %>">
+                                                <input type="hidden" name="product[saleprice]" value="<%= cart.items[i].productId.saleprice %>"> 
+                                                <input type="hidden" name="product[qty]" value="<%= cart.items[i].qty %>">            
+                                                
+                                                
+                                            <button class="deleteBtn" type="submit">
+                                              <i class="fa fa-times"></i>
+                                            </button>
+                                          </form>
+
+                                        </td>
+                                    </tr>
+                                    <!--second-->
+                                    <% } %>
+                                    <% } %>
+                                  
+                                </tbody>
+                            </table>
+                          
+                        </div>
+                        <% if (cart === null || cart.items.length == 0) { %>
+                           
+                       
+                        <% } else { %> 
+                        <div class="row">
+                            <!-- <div class="col-lg-12">
+                                <div class="cart-shiping-update-wrapper">
+                                 
+                                    <div class="cart-clear">
+                                        <button>Update Shopping Cart</button>
+                                        <a href="#">Clear Shopping Cart</a>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <% } %>
+                    
+                    
+                    <div class="row">
+                        <!--subtotal-->
+                    </div>
+                </div>
+                <% if (cart === null || cart.items.length == 0) { %>
+                    <!--if t's null , show nothing-->
+               
+                <% } else { %> 
+                    <div class="col-lg-4 col-md-12 mt-md-30px">
+                    
+                        <div class="grand-totall">
+                            <div class="title-wrap">
+                                <h4 class="cart-bottom-title section-bg-gary-cart">Order Summary</h4>
+                            </div>
+                            <h5>Total products <span> HK $ <%=cart.subTotal %></span></h5>
+                            <!-- <div class="total-shipping">
+                                <h5>Total shipping</h5>
+                                <ul>
+                                    <li><input type="checkbox" /> Standard <span>$20.00</span></li>
+                                    <li><input type="checkbox" /> Express <span>$30.00</span></li>
+                                </ul>
+                                
+                            </div> -->
+                            <h4 class="grand-totall-title">Grand Total <span>  HK $ <%=cart.subTotal %></span></h4>
+                            <p style="font-size: small;">
+                                * Shipping will be calculated at checkout
+                                
+                            </p>
+                           
+                        </div>
+                        
+                        </div>
+                    </div>      
+               <% } %>
+              
+               
+            </div>
+        </div>
+    </div>
+ 
+]
+
+
+ 
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <script src="../js/vendor/vendor.min.js"></script>
+    <script src="../js/plugins/plugins.min.js"></script>
+
+    <!-- Main Js -->
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
